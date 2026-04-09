@@ -27,10 +27,18 @@ const Landing: React.FC = () => {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-sm md:text-base text-secondary font-bold uppercase tracking-[0.2em]"
+          >
+            We stand towards your success
+          </motion.p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto italic"
           >
-            We Stand Towards your Success
+            Your Trusted Source for Academic Excellence
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
