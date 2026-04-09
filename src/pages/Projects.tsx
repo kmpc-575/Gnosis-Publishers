@@ -116,10 +116,10 @@ const Projects: React.FC = () => {
                   <span className="font-semibold">Full IP Ownership Rights</span>
                 </li>
               </ul>
-              <button className="bg-surface text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-container hover:text-on-primary transition-all flex items-center gap-3">
+              <a href="mailto:gnosispublishers26@gmail.com?subject=Custom Project Consultation" className="bg-surface text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-container hover:text-on-primary transition-all flex items-center gap-3 w-fit">
                 Schedule Consultation
                 <ArrowRight size={20} />
-              </button>
+              </a>
             </div>
             <div className="bg-surface-container-lowest/10 backdrop-blur-md rounded-2xl p-8 border border-white/10">
               <div className="mb-8">

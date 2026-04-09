@@ -159,7 +159,7 @@ const Journals: React.FC = () => {
         <h3 className="text-4xl font-serif text-on-surface mb-6">Stay informed on the next release.</h3>
         <p className="text-on-surface-variant mb-10">Get monthly updates on recently indexed journals and exclusive early access pricing.</p>
         <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
-          <input className="flex-grow px-6 py-4 bg-surface-container-low border-none rounded-full focus:ring-1 focus:ring-primary/20 text-sm" placeholder="academic.email@university.edu" type="email"/>
+          <input className="flex-grow px-6 py-4 bg-surface-container-low border-none rounded-full focus:ring-1 focus:ring-primary/20 text-sm" placeholder="gnosispublishers26@gmail.com" type="email"/>
           <button className="bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-sm">Subscribe</button>
         </div>
       </section>

@@ -13,6 +13,8 @@ import Patents from './pages/Patents';
 import Books from './pages/Books';
 import Projects from './pages/Projects';
 import Admin from './pages/Admin';
+import ProfileSetup from './pages/ProfileSetup';
+import AuthCallback from './pages/AuthCallback';
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/profile-setup" element={<ProfileSetup />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
       </Layout>
     </Router>

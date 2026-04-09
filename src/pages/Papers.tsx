@@ -112,26 +112,39 @@ const Papers: React.FC = () => {
               <p className="text-on-surface-variant mb-10 leading-relaxed">
                 Our board of PhD researchers provides bespoke literature reviews, theoretical frameworks, and experimental design manuscripts tailored to your specific academic requirements. 
               </p>
-              <form className="space-y-6">
+              <form 
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const domain = formData.get('domain');
+                  const topic = formData.get('topic');
+                  window.location.href = `mailto:gnosispublishers26@gmail.com?subject=Custom Research Paper Request&body=Research Domain: ${domain}%0D%0AProposed Topic: ${topic}`;
+                }}
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Research Domain</label>
                     <input 
+                      name="domain"
                       className="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20" 
                       placeholder="e.g. Nanotechnology" 
                       type="text"
+                      required
                     />
                   </div>
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Proposed Topic</label>
                     <input 
+                      name="topic"
                       className="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20" 
                       placeholder="The role of carbon nanotubes..." 
                       type="text"
+                      required
                     />
                   </div>
                 </div>
-                <button className="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all flex items-center gap-3" type="button">
+                <button className="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all flex items-center gap-3" type="submit">
                   Request Custom Paper <Edit3 size={20} />
                 </button>
               </form>

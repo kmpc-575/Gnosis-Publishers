@@ -137,7 +137,7 @@ const Patents: React.FC = () => {
                   <span>Novelty Assessment Report</span>
                 </li>
               </ul>
-              <button className="w-full py-3 rounded-full border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Begin Inquiry</button>
+              <a href="mailto:gnosispublishers26@gmail.com?subject=Patent Research Phase Inquiry" className="block text-center w-full py-3 rounded-full border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Begin Inquiry</a>
             </div>
 
             <div className="bg-surface-container-lowest p-8 rounded-2xl ring-2 ring-primary relative shadow-2xl shadow-primary/5 -translate-y-4">
@@ -157,7 +157,7 @@ const Patents: React.FC = () => {
                   <span>Technical Illustrations</span>
                 </li>
               </ul>
-              <button className="w-full py-4 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20">Secure Service</button>
+              <a href="mailto:gnosispublishers26@gmail.com?subject=Patent Full Filing Service" className="block text-center w-full py-4 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20">Secure Service</a>
             </div>
 
             <div className="bg-surface-container-low p-8 rounded-xl border border-outline-variant/20 hover:scale-[1.02] transition-transform duration-300">
@@ -176,7 +176,7 @@ const Patents: React.FC = () => {
                   <span>Language Translations</span>
                 </li>
               </ul>
-              <button className="w-full py-3 rounded-full border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Contact Board</button>
+              <a href="mailto:gnosispublishers26@gmail.com" className="block text-center w-full py-3 rounded-full border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Contact Board</a>
             </div>
           </div>
         </div>

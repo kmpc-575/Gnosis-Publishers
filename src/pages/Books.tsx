@@ -137,7 +137,7 @@ const Books: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <button className="mt-12 bg-primary text-on-primary px-8 py-4 rounded-full font-bold tracking-wide active:scale-95 transition-all shadow-lg hover:shadow-primary/20">Consult Our Board</button>
+              <a href="mailto:gnosispublishers26@gmail.com?subject=Book Publishing Consultation" className="mt-12 block text-center w-fit bg-primary text-on-primary px-8 py-4 rounded-full font-bold tracking-wide active:scale-95 transition-all shadow-lg hover:shadow-primary/20">Consult Our Board</a>
             </div>
             <div className="lg:col-span-7 grid grid-cols-2 gap-4">
               <div className="space-y-4 pt-12">
@@ -170,7 +170,7 @@ const Books: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-serif italic mb-6">Ready to initiate your manuscript?</h2>
             <p className="text-emerald-100 mb-10 max-w-xl mx-auto opacity-80">Our editors are ready to evaluate your proposal within 14 business days. Begin your journey toward academic immortality today.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-emerald-900 px-8 py-3 rounded-full font-bold hover:bg-emerald-50 active:scale-95 transition-all">Submit Proposal</button>
+              <a href="mailto:gnosispublishers26@gmail.com?subject=Manuscript Proposal Submission" className="bg-white text-emerald-900 px-8 py-3 rounded-full font-bold hover:bg-emerald-50 active:scale-95 transition-all">Submit Proposal</a>
               <button className="border border-emerald-500 text-white px-8 py-3 rounded-full font-bold hover:bg-white/10 active:scale-95 transition-all">Download Guide</button>
             </div>
           </div>
