@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Terminal, Cpu, Microscope, CheckCircle, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
+import { ContentItem } from '../types';
 
 const Projects: React.FC = () => {
+  const [projects, setProjects] = useState<ContentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('content_items')
+        .select('*')
+        .eq('type', 'project')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching projects:', error);
+      } else {
+        setProjects(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchProjects();
+  }, []);
+
+  const getIcon = (category: string) => {
+    const cat = category.toLowerCase();
+    if (cat.includes('software')) return <Terminal className="text-primary" size={24} />;
+    if (cat.includes('hardware')) return <Cpu className="text-primary" size={24} />;
+    return <Microscope className="text-primary" size={24} />;
+  };
+
   return (
     <div className="bg-surface min-h-screen">
       <main className="max-w-7xl mx-auto px-6 py-12">
@@ -29,95 +60,39 @@ const Projects: React.FC = () => {
         <section className="mb-32">
           <div className="flex items-baseline justify-between mb-12">
             <h2 className="text-4xl font-serif text-on-surface">Ready-made projects</h2>
-            <div className="flex gap-4">
-              <span className="px-4 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-semibold uppercase tracking-widest">New Releases</span>
-            </div>
           </div>
 
-          {/* Categories Tonal Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Category: Software */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-outline-variant/20">
-                <Terminal className="text-primary" size={24} />
-                <h3 className="text-2xl font-serif italic">Software</h3>
-              </div>
-              {/* Project Card */}
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <div className="aspect-video w-full rounded-lg bg-surface-container mb-4 overflow-hidden">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZwQ_tA2mA0r_AIg9fllqsMy2a1xUmQ3dSKq_PsgazAJH1h-mPqKYK5ei8f0Tl5EKL26T9Jw0_OT5XcER4zMNXHC8JYRpakHvDy6-lraff4aly1TavikcGoy59MMQWHYg02z4IX7qicUooXVeP1oH8rTeKsXs5nnktXZEfFmVsgol-68Jw4R0GETbxwUDNdT02789-5DKdeaoDV8fqFZlOSrM_fiyE3iZXf3IfbLBhq5q9hNJKNKyqLTSpd6ewuKA-ovIxxNR4YdEF" alt="Software Project" />
-                </div>
-                <h4 className="text-lg font-bold mb-2">Neural Network Optimizer</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">High-performance training module for distributed deep learning architectures.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$299.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <h4 className="text-lg font-bold mb-2">Blockchain Consensus API</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">Scalable node orchestration layer for private Ethereum implementations.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$450.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
+          {loading ? (
+            <div className="text-center py-20">Loading projects...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <motion.div 
+                  key={project.id}
+                  whileHover={{ y: -4 }}
+                  className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10 flex flex-col"
+                >
+                  <div className="flex items-center gap-3 pb-4 border-b border-outline-variant/20 mb-6">
+                    {getIcon(project.category)}
+                    <span className="text-xs font-bold uppercase tracking-widest text-primary">{project.category}</span>
+                  </div>
+                  <div className="aspect-video w-full rounded-lg bg-surface-container mb-4 overflow-hidden">
+                    <img 
+                      className="w-full h-full object-cover" 
+                      src={project.image_url || "https://picsum.photos/seed/project/400/300"} 
+                      alt={project.title} 
+                    />
+                  </div>
+                  <h4 className="text-lg font-bold mb-2">{project.title}</h4>
+                  <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">{project.description}</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-xl font-serif font-bold text-primary">{project.price}</span>
+                    <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-
-            {/* Category: Hardware */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-outline-variant/20">
-                <Cpu className="text-primary" size={24} />
-                <h3 className="text-2xl font-serif italic">Hardware</h3>
-              </div>
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <div className="aspect-video w-full rounded-lg bg-surface-container mb-4 overflow-hidden">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi7PBgtTjGhh_BHwRvxMdozzN1hRO8QqAnNQrbswxWllkM6plCR9CCIaOykrncx1CuOCzA1Btrq3SecYnvF72RqNP-4mfsk1sTwtTeQkhftLB_GYWRt3drrK-tIoLr2MDjgc-HfsWvncQuh0MtuYAqgKZyRJ7920DbObnv4dBxUChXZRw5lRkR9YDdZDQI-dxoQTjhZZ5lZdLdUVryX8U78WiEgSR8I3G0BM_CDGxJazSS6iSjqBxCV1x3O2vDrffybZbxzuIsyhtm" alt="Hardware Project" />
-                </div>
-                <h4 className="text-lg font-bold mb-2">IoT Sensor Array V4</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">Complete PCB schematics and firmware for environmental monitoring networks.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$890.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <h4 className="text-lg font-bold mb-2">Autonomous Rover Kit</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">Lidar integration plans and motor control logic for research-grade robotics.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$1,200.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Category: Research */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-outline-variant/20">
-                <Microscope className="text-primary" size={24} />
-                <h3 className="text-2xl font-serif italic">Research</h3>
-              </div>
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <div className="aspect-video w-full rounded-lg bg-surface-container mb-4 overflow-hidden">
-                  <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbtOOOs63dRwTaiYeE4oMhF2OTZYf8-yyCH2Ao5bglRIa9tSdTOfp2TGe3q6sUrAZingNDuajJLcEk9h6i_n5xZ5Yk1Jr5NPminGF7XIv2qXWo6lGYrjb3U9jkvudMwLnb6tfS5dyQTwoDkYoCsAsNR3EAIqnRJcwWI_GA6_CENrWCU5kCcjpJHWfW6XTqXID9suD2V-KIpcTje5cdDqliRJ0uezUQcjejq70YGBY1agMkKp9kZZYpcN44R8N3vAQ2Ik3AL3dqTCUP" alt="Research Project" />
-                </div>
-                <h4 className="text-lg font-bold mb-2">Quantum Simulation Data</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">Comprehensive dataset and analysis reports for superconducting qubits.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$550.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} className="bg-surface-container-lowest rounded-xl p-6 transition-all border border-outline-variant/10">
-                <h4 className="text-lg font-bold mb-2">Urban Bio-Stability Study</h4>
-                <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">Methodological framework for assessing ecosystem health in metropolis environments.</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-serif font-bold text-primary">$325.00</span>
-                  <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+          )}
         </section>
 
         {/* Custom Solutions Section */}

@@ -1,45 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShoppingCart, Edit3, BookOpen } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
+import { ContentItem } from '../types';
 
 const Papers: React.FC = () => {
-  const papers = [
-    {
-      dept: 'CSE',
-      price: '$499',
-      title: 'Scalable Neural Architecture for Real-time Edge Computing',
-      desc: 'A comprehensive study on optimizing deep learning models for low-latency IoT applications using pruning techniques.',
-      color: 'bg-tertiary-container'
-    },
-    {
-      dept: 'ECE',
-      price: '$350',
-      title: '5G Signal Interference Mitigation in Urban Environments',
-      desc: 'Exploring novel beamforming algorithms to enhance signal integrity in high-density metropolitan deployments.',
-      color: 'bg-tertiary-container'
-    },
-    {
-      dept: 'Mechanical',
-      price: '$420',
-      title: 'Thermodynamic Analysis of Hybrid Propulsion Systems',
-      desc: 'Efficiency benchmarking of dual-cycle engines in long-haul commercial aerospace applications.',
-      color: 'bg-tertiary-container'
-    },
-    {
-      dept: 'Biotech',
-      price: '$580',
-      title: 'CRISPR-Cas9 Interventions in Plant Metabolic Engineering',
-      desc: 'Analyzing genetic modifications in drought-resistant cereal crops for sustainable agriculture.',
-      color: 'bg-tertiary-container'
-    },
-    {
-      dept: 'Civil',
-      price: '$310',
-      title: 'Seismic Resistance of Smart Composite Concrete Structures',
-      desc: 'Evaluation of polymer-reinforced concrete under simulated high-magnitude seismic stress tests.',
-      color: 'bg-tertiary-container'
-    }
-  ];
+  const [papers, setPapers] = useState<ContentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPapers = async () => {
+      const { data, error } = await supabase
+        .from('content_items')
+        .select('*')
+        .eq('type', 'paper')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching papers:', error);
+      } else {
+        setPapers(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchPapers();
+  }, []);
 
   return (
     <div className="bg-surface min-h-screen">
@@ -72,43 +58,47 @@ const Papers: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {papers.map((paper, index) => (
+          {loading ? (
+            <div className="text-center py-20">Loading papers...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {papers.map((paper, index) => (
+                <motion.div 
+                  key={paper.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-surface-container-lowest rounded-xl p-8 transition-all hover:translate-y-[-4px] border border-outline-variant/10"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded text-xs font-bold tracking-wider uppercase">
+                      {paper.category}
+                    </span>
+                    <span className="font-serif text-2xl text-primary">{paper.price}</span>
+                  </div>
+                  <h3 className="font-serif text-xl mb-4 text-on-surface">{paper.title}</h3>
+                  <p className="text-on-surface-variant text-sm mb-8 leading-relaxed">{paper.description}</p>
+                  <button className="w-full bg-surface-container-highest text-primary font-bold py-3 rounded-full hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2">
+                    Buy Now <ShoppingCart size={16} />
+                  </button>
+                </motion.div>
+              ))}
+
+              {/* View All Grid Cell */}
               <motion.div 
-                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-surface-container-lowest rounded-xl p-8 transition-all hover:translate-y-[-4px] border border-outline-variant/10"
+                transition={{ delay: 0.6 }}
+                className="bg-primary/5 rounded-xl border-2 border-dashed border-primary/20 flex flex-col items-center justify-center p-8 text-center group cursor-pointer"
               >
-                <div className="flex justify-between items-start mb-6">
-                  <span className={`${paper.color} text-on-tertiary-container px-3 py-1 rounded text-xs font-bold tracking-wider uppercase`}>
-                    {paper.dept}
-                  </span>
-                  <span className="font-serif text-2xl text-primary">{paper.price}</span>
+                <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                  <BookOpen className="text-on-primary-container" size={32} />
                 </div>
-                <h3 className="font-serif text-xl mb-4 text-on-surface">{paper.title}</h3>
-                <p className="text-on-surface-variant text-sm mb-8 leading-relaxed">{paper.desc}</p>
-                <button className="w-full bg-surface-container-highest text-primary font-bold py-3 rounded-full hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2">
-                  Buy Now <ShoppingCart size={16} />
-                </button>
+                <h3 className="font-serif text-xl text-primary mb-2">Browse All Papers</h3>
+                <p className="text-on-surface-variant text-xs">Search by author, DOI, or keyword.</p>
               </motion.div>
-            ))}
-
-            {/* View All Grid Cell */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="bg-primary/5 rounded-xl border-2 border-dashed border-primary/20 flex flex-col items-center justify-center p-8 text-center group cursor-pointer"
-            >
-              <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                <BookOpen className="text-on-primary-container" size={32} />
-              </div>
-              <h3 className="font-serif text-xl text-primary mb-2">Browse All 1,200+ Papers</h3>
-              <p className="text-on-surface-variant text-xs">Search by author, DOI, or keyword.</p>
-            </motion.div>
-          </div>
+            </div>
+          )}
         </section>
 
         {/* Custom Topic Section */}

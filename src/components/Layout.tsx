@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mail, Share2, Globe, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Mail, Share2, LogOut, Settings } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+  const { user, isAdmin, signIn, signOut } = useAuth();
 
   const navLinks = [
     { name: 'Papers', path: '/papers' },
@@ -41,15 +43,48 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   {link.name}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className={`flex items-center gap-2 text-sm font-bold tracking-wide transition-colors hover:text-emerald-800 ${
+                    location.pathname === '/admin'
+                      ? 'text-emerald-900 border-b-2 border-emerald-800 pb-1'
+                      : 'text-stone-600'
+                  }`}
+                >
+                  <Settings size={16} /> Dashboard
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button className="px-5 py-2 text-sm font-bold text-emerald-900 hover:bg-emerald-100/50 rounded-full transition-all active:scale-95">
-              Login
-            </button>
-            <button className="px-6 py-2 text-sm font-bold bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
-              Sign Up
-            </button>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-xs font-semibold text-stone-500 hidden lg:block">{user.email}</span>
+                <button 
+                  onClick={signOut}
+                  className="p-2 text-stone-600 hover:bg-stone-100 rounded-full transition-all"
+                  title="Sign Out"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <>
+                <button 
+                  onClick={signIn}
+                  className="px-5 py-2 text-sm font-bold text-emerald-900 hover:bg-emerald-100/50 rounded-full transition-all active:scale-95"
+                >
+                  Login
+                </button>
+                <button 
+                  onClick={signIn}
+                  className="px-6 py-2 text-sm font-bold bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95"
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </nav>
       </header>

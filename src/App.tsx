@@ -12,6 +12,7 @@ import Journals from './pages/Journals';
 import Patents from './pages/Patents';
 import Books from './pages/Books';
 import Projects from './pages/Projects';
+import Admin from './pages/Admin';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/patents" element={<Patents />} />
           <Route path="/books" element={<Books />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Layout>
     </Router>

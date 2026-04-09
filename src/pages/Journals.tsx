@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShoppingCart, Search, CheckSquare, History, Globe, Share2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
+import { ContentItem } from '../types';
 
 const Journals: React.FC = () => {
+  const [journals, setJournals] = useState<ContentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchJournals = async () => {
+      const { data, error } = await supabase
+        .from('content_items')
+        .select('*')
+        .eq('type', 'journal')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching journals:', error);
+      } else {
+        setJournals(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchJournals();
+  }, []);
+
   return (
     <div className="bg-surface min-h-screen">
       {/* Hero / Title Section */}
@@ -33,97 +57,31 @@ const Journals: React.FC = () => {
           <span className="text-sm font-sans text-outline uppercase tracking-widest">Selected Volumes</span>
         </div>
 
-        {/* Bento Grid Layout for Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Science (Large Card) */}
-          <motion.div 
-            whileHover={{ scale: 1.01 }}
-            className="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-lowest transition-all hover:ring-1 hover:ring-primary/20"
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent z-10"></div>
-            <img 
-              className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdN3KHOyjM2ufh3rbZg8Of1TzGLumq5neu8-0wM2bUxjW4Hgcz9ijarX68uBALUUFMAlp4wo6e7gqfJalFoVpmqxPfre5lBAP-G5qK6odJJY7TvsLtOsvvwEgwGnATy3_4d41f2-pgl6BaxbYNE3klR_6TaxyfAv9x2ig8x8pae_dMOHSBRXFbeHAnrhem28uHnRxJmbVm1uo8ligw1z0F6iMUO05QGnCUtkX9s-SoAc68si6mGoppZno8aUsqk6WxQuxQo_s6Agl8" 
-              alt="Science"
-            />
-            <div className="absolute bottom-0 left-0 p-8 z-20 w-full flex justify-between items-end">
-              <div>
-                <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase mb-3 inline-block">Science & Research</span>
-                <h3 className="text-3xl font-serif text-white mb-2">The Quantum Nexus</h3>
-                <p className="text-white/80 text-sm max-w-md">Comprehensive breakthroughs in particle physics and quantum computing architecture.</p>
-              </div>
-              <div className="text-right">
-                <p className="text-white font-serif text-3xl mb-3">$149.00</p>
-                <button className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-primary-container transition-all active:scale-95">Purchase Now</button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Arts (Tall Card) */}
-          <div className="md:col-span-4 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between">
-            <div>
-              <span className="text-secondary font-bold text-xs uppercase tracking-tighter mb-6 block">Humanities & Arts</span>
-              <h3 className="text-4xl font-serif leading-tight mb-4 text-emerald-900">Aesthetic Theory & Praxis</h3>
-              <p className="text-on-surface-variant text-sm leading-relaxed mb-6">Exploring the intersection of classical philosophy and modern digital expressionism.</p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                <span className="text-[10px] px-2 py-1 bg-surface-container rounded border border-outline/10 text-outline uppercase font-bold">Hardbound</span>
-                <span className="text-[10px] px-2 py-1 bg-surface-container rounded border border-outline/10 text-outline uppercase font-bold">Digital Edition</span>
-              </div>
-            </div>
-            <div>
-              <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-3xl font-serif text-primary">$89.50</span>
-                <span className="text-xs text-outline line-through">$110.00</span>
-              </div>
-              <button className="w-full bg-surface-container-highest text-primary font-bold py-4 rounded-full text-sm hover:bg-primary hover:text-white transition-all">Purchase Now</button>
-            </div>
+        {loading ? (
+          <div className="text-center py-20">Loading journals...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {journals.map((journal, index) => (
+              <motion.div 
+                key={journal.id}
+                whileHover={{ scale: 1.01 }}
+                className={`${index % 3 === 0 ? 'md:col-span-8' : 'md:col-span-4'} group relative overflow-hidden rounded-xl bg-surface-container-lowest transition-all hover:ring-1 hover:ring-primary/20 border border-outline-variant/10`}
+              >
+                <div className="p-8 flex flex-col justify-between h-full">
+                  <div>
+                    <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase mb-3 inline-block">{journal.category}</span>
+                    <h3 className="text-3xl font-serif text-on-surface mb-2">{journal.title}</h3>
+                    <p className="text-on-surface-variant text-sm max-w-md mb-6">{journal.description}</p>
+                  </div>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-2xl font-serif text-primary">{journal.price}</span>
+                    <button className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-primary-container transition-all active:scale-95">Purchase Now</button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Technology */}
-          <div className="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col shadow-sm border border-transparent hover:border-primary/10 transition-all">
-            <img className="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQLUxGyicen3JLIyT2bJYfHEmRhsHjf8TZaqZIRHRqmoZkjw2PF4hmt194FhWlQzRoB_sYjDcZJvmmeHMhaFzV0pbiSse-MxEjoOSuJxkTKP5azbjHBVLNeDXZcVMmiYUvj5DHFb5FzkdvDll7ytyPxPZ5etPAvEbm5aD_dSJ_v5rdiLd-wR_yBnH8C_AgOWrf-4WwpWhz7FLDkgVbgpZrYS6FkS_XosRJQYjZDLmsQPnUOTHbyX7l_PyWvk1PDB7Kb7VmJy05aGw7" alt="Tech" />
-            <div className="p-6">
-              <h3 className="text-xl font-serif text-on-surface mb-2">Systems & Logic</h3>
-              <p className="text-on-surface-variant text-xs mb-6">Focusing on neural networks and decentralised ledger efficiency.</p>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-serif text-on-surface">$120.00</span>
-                <button className="p-2 rounded-full text-primary hover:bg-primary/10 transition-colors">
-                  <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Medical */}
-          <div className="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col shadow-sm border border-transparent hover:border-primary/10 transition-all">
-            <img className="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbRACHALb2ALcbrDDscgywW9bT16IDVFgNiDct6WA6IkGF2q-k5XwmylY5PauespuYBhArNr1sCxZEj7e0ZBsLdVT78jZWhvVf_GcBiK8xlZPzf1VZWIo6nbzrjNehbXxDoXYMk-J7_ddoBtBTDYtgSi7SE4yryalz6EM7vKcXWsh2xAs9bj_-6kBD3jlpKtVwSVNSslZ-5N38DyOwZOgjuuvxqm1Vh4-qcc-VV8p6sfIx-O6D6IQZ2i6vYBKQo0fG8w64WzhVvc79" alt="Medical" />
-            <div className="p-6">
-              <h3 className="text-xl font-serif text-on-surface mb-2">Bio-Genetic Archive</h3>
-              <p className="text-on-surface-variant text-xs mb-6">Peer-reviewed studies on CRISPR technology and longevity research.</p>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-serif text-on-surface">$175.00</span>
-                <button className="p-2 rounded-full text-primary hover:bg-primary/10 transition-colors">
-                  <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Business */}
-          <div className="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col shadow-sm border border-transparent hover:border-primary/10 transition-all">
-            <img className="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsY-5ii_d2DzfIvM4V7fuZpggjDbrT5mIqjN5snYBBcjBcjU-1IcVYcJ0sDwwELrbfO4I9P0SUqTBzkVpcArdazHBv0rRBDXJMjo8oxvwm3bmsXKUU8a_RAmW26uuTLyoGDcgv6dxclVbyzopQQW8YqPbwowFbOWWFX0kfdp2jrmM6ITeZGJs-EitlA3XG6zQbGajEBEF4WEXRixKhFEcf_hdFOd89uYwHEmBut6PaoCarIjDdO1J9MqA5tn2AynyZcedycctO10h2" alt="Business" />
-            <div className="p-6">
-              <h3 className="text-xl font-serif text-on-surface mb-2">Global Macro-Economics</h3>
-              <p className="text-on-surface-variant text-xs mb-6">Strategic analysis of emerging markets and fiscal policy trends.</p>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-serif text-on-surface">$95.00</span>
-                <button className="p-2 rounded-full text-primary hover:bg-primary/10 transition-colors">
-                  <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </section>
 
       {/* Custom Journal Topics Section */}

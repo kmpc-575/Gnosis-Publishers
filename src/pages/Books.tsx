@@ -1,28 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Edit3, BookOpen, Globe, ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
+import { ContentItem } from '../types';
 
 const Books: React.FC = () => {
-  const books = [
-    {
-      title: 'Advanced Quantum Kinetics',
-      desc: 'A comprehensive study of non-equilibrium statistical mechanics in subatomic structures.',
-      price: '$149.00',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCscV2Uk_EEe5hF8pzzSsZGs0Ox1VOz2W6U3LdFfdshoBOppXksiKnqaxWbsanCoLRGDhnFFD0DSo82SBRt45oT4HB1WmBG5bAFZgpjkU2rbk8G9uKeUBJ5X0McnWkBRo_1tG0sWWFlTvwqih8PEeHeEEhmRFQgWqWl6ZdoFGjF3zBKCsxBM5eSaRMjR28YOjeKvFNkWxoWSdK8O_T2CqbLF60NO8mwDirX-91s3-LQEtTm18vikbEuklFZZlYs6XOqfVtl4l3syIU7'
-    },
-    {
-      title: 'The Digital Imperative',
-      desc: 'Ethical frameworks for autonomous systems in contemporary socio-economic landscapes.',
-      price: '$89.50',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAr1uDjzgOUrY0RL8xyFjIIaAHZWzYu3Kja7sjVJCQKBkZSjXsMxPMK9kcWxCS-xjz_OPyFY7Tu0RCj5cVuUKaDpzxtjwAIWc9bqIMXALKZTnMR2bzRZm00dgotkgOAZQTHf2FsHmACH6OXGtONCtRN4o2ZbN1UzBmD6OnmvLj79V2oaazKacSom3ih4Q55foACfx7b4Zm31ddHuN1ZMfjjd4Hubn3y2u6Jde6iwJjiNmY5QvXU2XQGXwp4mIvd1xtyhvsChJEa9x_D'
-    },
-    {
-      title: 'Neurosociology Foundations',
-      desc: 'Bridging biological cognition and collective social behavior in urban environments.',
-      price: '$112.00',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAhH9vt0jhpf6n9BGV6EluFayNGa-Ed0XX9rpExwiuLYtoTiEtVDJmpRkGDWK608aRweVgwW5BDR7EnjjaBJH9CjX_gO_8MWrTQnJLRRzOWzqyANZWR9XukqiEGtGIQmCDfKOdMwn3XJE-xkw1ZWZ6IYPGZoC5r0wKoBVtROyM0Nc1mI6m8Eb5IQLLx22Jh4keFgNZPkyWd-f7hlG7gwkT-qGxS_Ujz0NYUStG5hoUEaUB7VukLCSAtMuev6ksleIEaTj_OdfvuJ7MI'
-    }
-  ];
+  const [books, setBooks] = useState<ContentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const { data, error } = await supabase
+        .from('content_items')
+        .select('*')
+        .eq('type', 'book')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching books:', error);
+      } else {
+        setBooks(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchBooks();
+  }, []);
 
   return (
     <div className="bg-surface min-h-screen">
@@ -66,39 +69,35 @@ const Books: React.FC = () => {
               <h2 className="text-4xl font-serif text-on-surface mb-4">Academic Textbooks & Monographs</h2>
               <p className="text-on-surface-variant">Essential volumes peer-reviewed by our global academic board.</p>
             </div>
-            <div className="flex gap-4">
-              <button className="p-2 cursor-pointer text-primary border border-outline-variant rounded-full hover:bg-surface-container-highest transition-all">
-                <ArrowLeft size={20} />
-              </button>
-              <button className="p-2 cursor-pointer text-primary border border-outline-variant rounded-full hover:bg-surface-container-highest transition-all">
-                <ArrowRight size={20} />
-              </button>
-            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {books.map((book, index) => (
-              <motion.div 
-                key={index}
-                whileHover={{ y: -4 }}
-                className="group bg-surface-container-lowest rounded-xl p-6 flex flex-col transition-all border border-outline-variant/10"
-              >
-                <div className="aspect-[3/4] mb-6 overflow-hidden rounded-lg bg-stone-200">
-                  <img 
-                    alt={book.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                    src={book.img}
-                  />
-                </div>
-                <h3 className="font-serif text-2xl mb-2 text-on-surface">{book.title}</h3>
-                <p className="text-sm text-on-surface-variant mb-6 flex-grow leading-relaxed">{book.desc}</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-bold text-primary">{book.price}</span>
-                  <button className="bg-surface-container-highest text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95">Buy Now</button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-20">Loading books...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {books.map((book, index) => (
+                <motion.div 
+                  key={book.id}
+                  whileHover={{ y: -4 }}
+                  className="group bg-surface-container-lowest rounded-xl p-6 flex flex-col transition-all border border-outline-variant/10"
+                >
+                  <div className="aspect-[3/4] mb-6 overflow-hidden rounded-lg bg-stone-200">
+                    <img 
+                      alt={book.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      src={book.image_url || "https://picsum.photos/seed/book/400/600"}
+                    />
+                  </div>
+                  <h3 className="font-serif text-2xl mb-2 text-on-surface">{book.title}</h3>
+                  <p className="text-sm text-on-surface-variant mb-6 flex-grow leading-relaxed">{book.description}</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-xl font-bold text-primary">{book.price}</span>
+                    <button className="bg-surface-container-highest text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95">Buy Now</button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -41,9 +41,6 @@ const Landing: React.FC = () => {
             <button className="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-transform">
               Explore Archive
             </button>
-            <button className="px-8 py-4 bg-surface-container-highest text-primary rounded-full font-bold text-lg hover:bg-surface-container-high transition-colors">
-              Submit Work
-            </button>
           </motion.div>
         </div>
       </section>
