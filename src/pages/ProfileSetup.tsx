@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 import { UserProfile } from '../types';
 
 const ProfileSetup: React.FC = () => {
-  const { user, userProfile, refreshProfile } = useAuth();
+  const { user, userProfile, isAdmin, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -25,6 +25,8 @@ const ProfileSetup: React.FC = () => {
 
   useEffect(() => {
     if (!user) {
+      navigate('/');
+    } else if (isAdmin) {
       navigate('/');
     } else if (userProfile) {
       // Pre-fill if editing existing profile
