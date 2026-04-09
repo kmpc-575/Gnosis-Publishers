@@ -30,6 +30,7 @@ const Landing: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto italic"
           >
+            We Stand Towards your Success
             Your Trusted Source for Academic Excellence
           </motion.p>
           <motion.div 
