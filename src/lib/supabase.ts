@@ -1,15 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://pzjhtwubibcgvxzejomb.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6amh0d3ViaWJjZ3Z4emVqb21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODMwODYsImV4cCI6MjA5MTI1OTA4Nn0.2oQ-ZnVcGEDkY7sJqf8e6RUd12ieP2CbYZ0P3ac5NRI';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase credentials missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment variables in the Settings menu.');
+  console.warn('Supabase credentials missing. Please check your environment variables.');
 }
 
-// Initialize with placeholders if missing to prevent immediate crash, 
-// but actual calls will fail with a clear message if used.
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co', 
-  supabaseAnonKey || 'placeholder'
-);
+export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
