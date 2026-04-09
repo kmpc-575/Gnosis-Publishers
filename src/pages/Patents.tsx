@@ -124,7 +124,7 @@ const Patents: React.FC = () => {
             <div className="bg-surface-container-low p-8 rounded-xl border border-outline-variant/20 hover:scale-[1.02] transition-transform duration-300">
               <div className="mb-8">
                 <h4 className="text-sm font-bold tracking-[0.2em] text-on-surface-variant uppercase mb-2">Research Phase</h4>
-                <div className="text-4xl font-serif text-primary mb-4">$2,500</div>
+                <div className="text-4xl font-serif text-primary mb-4">₹1,99,000</div>
                 <p className="text-xs text-on-surface-variant leading-relaxed">Ideal for validating novelty before heavy investment.</p>
               </div>
               <ul className="space-y-4 mb-10 text-sm">
@@ -144,7 +144,7 @@ const Patents: React.FC = () => {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">Most Professional</div>
               <div className="mb-8">
                 <h4 className="text-sm font-bold tracking-[0.2em] text-on-surface-variant uppercase mb-2">Full Filing</h4>
-                <div className="text-4xl font-serif text-primary mb-4">$8,500</div>
+                <div className="text-4xl font-serif text-primary mb-4">₹6,99,000</div>
                 <p className="text-xs text-on-surface-variant leading-relaxed">Comprehensive representation from draft to submission.</p>
               </div>
               <ul className="space-y-4 mb-10 text-sm">
