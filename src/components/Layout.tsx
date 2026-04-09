@@ -16,10 +16,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading && user && !userProfile && location.pathname !== '/profile-setup') {
+    if (!loading && user && !isAdmin && !userProfile && location.pathname !== '/profile-setup') {
       navigate('/profile-setup');
     }
-  }, [user, userProfile, loading, location.pathname, navigate]);
+  }, [user, userProfile, isAdmin, loading, location.pathname, navigate]);
 
   const navLinks = [
     { name: 'Papers', path: '/papers' },
