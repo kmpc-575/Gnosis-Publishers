@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout as LayoutIcon, Library } from 'lucide-react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
 
 const Landing: React.FC = () => {
+  const [marqueeText, setMarqueeText] = useState('Recent: Deep Learning Paper Published • Blockchain Patent Filed • Quantum Physics Journal Volume 10');
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .eq('key', 'marquee_text')
+        .single();
+      
+      if (data) {
+        setMarqueeText(data.value);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <div className="bg-surface">
       {/* Hero Section */}
@@ -58,12 +76,14 @@ const Landing: React.FC = () => {
         <div className="flex whitespace-nowrap animate-marquee">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex gap-12 font-sans text-sm uppercase tracking-[0.2em] font-semibold px-6">
-              <span>Recent: Deep Learning Paper Published</span>
-              <span className="text-on-primary-container/40">•</span>
-              <span>Blockchain Patent Filed</span>
-              <span className="text-on-primary-container/40">•</span>
-              <span>Quantum Physics Journal Volume 10</span>
-              <span className="text-on-primary-container/40">•</span>
+              {marqueeText.split('•').map((text, idx) => (
+                <React.Fragment key={idx}>
+                  <span>{text.trim()}</span>
+                  {idx < marqueeText.split('•').length - 1 && (
+                    <span className="text-on-primary-container/40">•</span>
+                  )}
+                </React.Fragment>
+              ))}
             </div>
           ))}
         </div>
@@ -139,7 +159,7 @@ const Landing: React.FC = () => {
             </div>
             <div className="flex items-center justify-between relative z-10">
               <span className="text-primary font-bold text-2xl italic font-serif">
-                $249.00 <span className="text-xs text-on-surface-variant not-italic font-sans">starting</span>
+                ₹19,900 <span className="text-xs text-on-surface-variant not-italic font-sans">starting</span>
               </span>
               <button className="px-6 py-3 bg-on-surface text-surface rounded-full font-bold text-sm hover:bg-primary transition-colors flex items-center gap-2">
                 View & Buy <ArrowRight size={16} />
