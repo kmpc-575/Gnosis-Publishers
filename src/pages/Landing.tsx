@@ -31,6 +31,8 @@ const Landing: React.FC = () => {
             className="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto italic"
           >
             We Stand Towards your Success
+           
+            
             Your Trusted Source for Academic Excellence
           </motion.p>
           <motion.div 
