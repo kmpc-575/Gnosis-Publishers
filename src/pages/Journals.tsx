@@ -144,7 +144,7 @@ const Journals: React.FC = () => {
                 <div className="pt-6 border-t border-outline-variant/20">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-bold">Estimated Cost</span>
-                    <span className="text-xl font-serif text-primary">$210.00</span>
+                    <span className="text-xl font-serif text-primary">₹16,900</span>
                   </div>
                   <p className="text-[10px] text-outline italic leading-tight">Price includes curation fee, DOI generation, and digital archive hosting for 24 months.</p>
                 </div>
