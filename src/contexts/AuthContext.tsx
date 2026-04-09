@@ -15,7 +15,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ADMIN_EMAIL = 'kmpconsultancyservices@gmail.com';
+const ADMIN_EMAILS = [
+  'kmpconsultancyservices@gmail.com',
+  'gnosispublishers.md@gmail.com'
+];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -115,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (error) console.error('Error signing out:', error.message);
   };
 
-  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isAdmin = !!user?.email && ADMIN_EMAILS.includes(user.email);
 
   return (
     <AuthContext.Provider value={{ user, userProfile, isAdmin, loading, signInWithGoogle, signOut, refreshProfile }}>
