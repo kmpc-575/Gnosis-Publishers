@@ -134,7 +134,7 @@ const Projects: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between py-4 border-b border-white/10">
                   <span>Technical Drafting</span>
-                  <span className="font-bold">From $2,500</span>
+                  <span className="font-bold">From ₹1,99,000</span>
                 </div>
                 <div className="flex items-center justify-between py-4">
                   <span>Full Implementation</span>
