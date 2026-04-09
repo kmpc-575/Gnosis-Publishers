@@ -95,21 +95,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signInWithGoogle = async () => {
+    console.log('Initiating Google Sign-In...');
+    
+    // Use the current origin for the redirect URL
+    // This ensures it works on both the Vercel production site and the AI Studio preview
+    const redirectUrl = `${window.location.origin}/auth/callback`;
+    
+    console.log('Redirect URL:', redirectUrl);
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/#/auth/callback`,
+        redirectTo: redirectUrl,
         skipBrowserRedirect: true
       }
     });
     
     if (error) {
-      console.error('Error signing in with Google:', error.message);
+      console.error('Supabase OAuth Error:', error.message);
+      alert(`Sign-in failed: ${error.message}`);
       return;
     }
 
     if (data?.url) {
-      window.open(data.url, 'supabase_auth_popup', 'width=600,height=700');
+      console.log('Opening auth popup:', data.url);
+      const popup = window.open(data.url, 'supabase_auth_popup', 'width=600,height=700');
+      if (!popup) {
+        alert('Popup blocked! Please allow popups for this site.');
+      }
     }
   };
 

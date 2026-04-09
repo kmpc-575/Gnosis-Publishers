@@ -22,20 +22,24 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    console.log(`Attempting ${isLogin ? 'Login' : 'Sign Up'} for:`, email);
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        console.log('Login successful:', data.user?.email);
         onClose();
       } else {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
+        console.log('Sign up successful:', data.user?.email);
         alert('Check your email for the confirmation link!');
         setIsLogin(true);
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      console.error('Auth Error:', err.message || err);
+      setError(err.message || 'An error occurred during authentication');
     } finally {
       setLoading(false);
     }

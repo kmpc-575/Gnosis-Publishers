@@ -7,20 +7,33 @@ const AuthCallback = () => {
 
   useEffect(() => {
     const handleCallback = async () => {
-      const { error } = await supabase.auth.getSession();
+      console.log('Auth callback reached. URL:', window.location.href);
       
-      if (window.opener) {
-        // If opened in a popup, notify the opener and close
-        window.opener.postMessage({ type: 'OAUTH_AUTH_SUCCESS' }, window.location.origin);
-        window.close();
-      } else {
-        // If redirected in the same window, just go home
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        
         if (error) {
-          console.error('Error during auth callback:', error.message);
-          navigate('/');
+          console.error('Session retrieval error:', error.message);
+        } else if (data.session) {
+          console.log('Session successfully retrieved!');
         } else {
+          console.warn('No session found in callback.');
+        }
+
+        if (window.opener) {
+          console.log('Notifying opener window...');
+          window.opener.postMessage({ type: 'OAUTH_AUTH_SUCCESS' }, window.location.origin);
+          setTimeout(() => {
+            console.log('Closing popup...');
+            window.close();
+          }, 500);
+        } else {
+          console.log('Redirecting to home...');
           navigate('/');
         }
+      } catch (err) {
+        console.error('Unexpected error in callback:', err);
+        navigate('/');
       }
     };
 
