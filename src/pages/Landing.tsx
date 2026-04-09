@@ -1,0 +1,252 @@
+import React from 'react';
+import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout as LayoutIcon, Library } from 'lucide-react';
+import { motion } from 'motion/react';
+
+const Landing: React.FC = () => {
+  return (
+    <div className="bg-surface">
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] flex flex-col justify-center items-center px-6 overflow-hidden">
+        <div 
+          className="absolute inset-0 opacity-10 pointer-events-none" 
+          style={{ 
+            backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKjDgeB25MrNrSEw8IytmaLNNmgf7z2JKx7kOoLV248oRY3Doo2WDM3EOlXeqoBhCV5cE5ENcDHMAgpPOzeFC6QkTPC9uJRhllMRI0YX8_V_oEGCRGIhVQ3T_JtRJoEhcka8g1_HOdUUIfVVDj5_bBPvzLctW1sj9pCiCpfbdo5ptIj71KtKLNiBP7-fL5TvnWsY449TUkErS38rIzfZ86GMoLNUgPRyRO6BaBCDD9ddl-tHTEyj6JuVrWY66CWR3RnFZXTF4xaNMc')", 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center' 
+          }}
+        ></div>
+        <div className="max-w-5xl w-full text-center relative z-10 space-y-8">
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="font-serif text-7xl md:text-9xl text-primary leading-tight tracking-tighter"
+          >
+            Gnosis Publishers
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto italic"
+          >
+            Your Trusted Source for Academic Excellence
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex justify-center gap-6 pt-4"
+          >
+            <button className="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-transform">
+              Explore Archive
+            </button>
+            <button className="px-8 py-4 bg-surface-container-highest text-primary rounded-full font-bold text-lg hover:bg-surface-container-high transition-colors">
+              Submit Work
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Marquee News */}
+      <div className="bg-primary-container text-on-primary-container py-3 border-y border-outline-variant/10 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex gap-12 font-sans text-sm uppercase tracking-[0.2em] font-semibold px-6">
+              <span>Recent: Deep Learning Paper Published</span>
+              <span className="text-on-primary-container/40">•</span>
+              <span>Blockchain Patent Filed</span>
+              <span className="text-on-primary-container/40">•</span>
+              <span>Quantum Physics Journal Volume 10</span>
+              <span className="text-on-primary-container/40">•</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Highlights Section */}
+      <section className="py-24 px-8 bg-surface-container-low">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="flex items-start gap-6 group">
+            <div className="w-14 h-14 rounded-xl bg-tertiary-container flex items-center justify-center text-on-tertiary shrink-0 shadow-sm">
+              <BadgeCheck size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl text-on-surface mb-2">Verified Content</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">
+                Rigorous double-blind peer reviews ensuring only the most precise scholarly contributions reach our repository.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-6 group">
+            <div className="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container shrink-0 shadow-sm">
+              <Zap size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl text-on-surface mb-2">Fast Delivery</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">
+                Instant digital access and prioritized manuscript processing for rapid knowledge dissemination.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-6 group">
+            <div className="w-14 h-14 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 shadow-sm">
+              <CreditCard size={28} />
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl text-on-surface mb-2">Affordable Pricing</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">
+                Democratizing access to high-tier research with scalable institutional and individual licensing models.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Cards Grid */}
+      <section className="py-32 px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-xl">
+            <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Our Services</span>
+            <h2 className="font-serif text-5xl text-on-surface">Precision in Scholarly Assets</h2>
+          </div>
+          <p className="text-on-surface-variant max-w-sm">
+            Browse our meticulously curated categories ranging from raw industrial patents to theoretical academic journals.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Large Feature Card */}
+          <div className="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between min-h-[400px] group overflow-hidden relative border border-outline-variant/10">
+            <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
+              <img 
+                className="object-cover w-full h-full grayscale" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCui1kVYq_oycz61lDVS9F-s2Ra7Tn-YDr7Vxy-nTDnRDAfH233rJHn17nPfi4O6lzsbHdqSIl_ru-Fb6bvIPBA6_YzQN-UkWBl6lFKZM6yFudLwFbHjUXE_NEYIyjBwxVU52ch9gBD5TVNCfMTzEGyYJfwVuyT_QyYB9vgjharrXr03s0VYSoXf7vo2-QcQCxt9Zdkoqpb1Vk01nwpDwHEDT9Q46pATLUocoF7nhMUZDGMkQ-OTxDd4QhkJm24Kczh34iqOEY6B4BJ" 
+                alt="Paper Publication"
+              />
+            </div>
+            <div className="relative z-10">
+              <span className="text-tertiary font-bold text-xs uppercase tracking-widest mb-2 block">Premium Catalog</span>
+              <h3 className="font-serif text-4xl text-on-surface mb-6">Paper Publication</h3>
+              <p className="text-on-surface-variant max-w-sm mb-8">
+                Access ground-breaking whitepapers and peer-reviewed research papers across technology, medicine, and the humanities.
+              </p>
+            </div>
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-primary font-bold text-2xl italic font-serif">
+                $249.00 <span className="text-xs text-on-surface-variant not-italic font-sans">starting</span>
+              </span>
+              <button className="px-6 py-3 bg-on-surface text-surface rounded-full font-bold text-sm hover:bg-primary transition-colors flex items-center gap-2">
+                View & Buy <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Smaller Grid Cards */}
+          <div className="md:col-span-4 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 flex flex-col justify-between group">
+            <div>
+              <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-primary mb-6">
+                <BookOpen size={24} />
+              </div>
+              <h3 className="font-serif text-2xl text-on-surface mb-3">Journal</h3>
+              <p className="text-on-surface-variant text-sm mb-6">
+                Subscription-based access to thematic volumes and historical archives.
+              </p>
+            </div>
+            <button className="w-full py-3 bg-surface-container-high text-primary rounded-full font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">
+              View & Buy
+            </button>
+          </div>
+
+          <div className="md:col-span-4 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 flex flex-col justify-between group">
+            <div>
+              <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center text-secondary mb-6">
+                <Gavel size={24} />
+              </div>
+              <h3 className="font-serif text-2xl text-on-surface mb-3">Patent</h3>
+              <p className="text-on-surface-variant text-sm mb-6">
+                Intellectual property documentation and licensing frameworks.
+              </p>
+            </div>
+            <button className="w-full py-3 bg-surface-container-high text-primary rounded-full font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">
+              View & Buy
+            </button>
+          </div>
+
+          <div className="md:col-span-4 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 flex flex-col justify-between group">
+            <div>
+              <div className="w-12 h-12 bg-stone-100 rounded-lg flex items-center justify-center text-on-surface-variant mb-6">
+                <Book size={24} />
+              </div>
+              <h3 className="font-serif text-2xl text-on-surface mb-3">Book</h3>
+              <p className="text-on-surface-variant text-sm mb-6">
+                Complete academic monographs and specialized textbooks.
+              </p>
+            </div>
+            <button className="w-full py-3 bg-surface-container-high text-primary rounded-full font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">
+              View & Buy
+            </button>
+          </div>
+
+          <div className="md:col-span-4 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 flex flex-col justify-between group">
+            <div>
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-primary-container mb-6">
+                <LayoutIcon size={24} />
+              </div>
+              <h3 className="font-serif text-2xl text-on-surface mb-3">Project</h3>
+              <p className="text-on-surface-variant text-sm mb-6">
+                Collaborative research datasets and open-source project files.
+              </p>
+            </div>
+            <button className="w-full py-3 bg-surface-container-high text-primary rounded-full font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">
+              View & Buy
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Promotional/Editorial Section */}
+      <section className="py-32 bg-stone-900 text-stone-100 relative overflow-hidden">
+        <div className="absolute left-0 top-0 w-full h-full opacity-20 pointer-events-none">
+          <img 
+            className="w-full h-full object-cover" 
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuY09jrHYs95AjXfA4cNBgcR-PlH2M2APXCuuiQERIG-V-vW2lVSS7ZXNhfw3zLJyac62YIi9DeK370uVNa3PGmiwNnskl-qaeXsqsP96Ay77SApnDB_k7XZqdB_sjuo3CLNwrWd7yldtUo0aR_d3G3z0aADf3YLOVOizlmAUo87uqakVCbkNJH1eDhhIgjejf-VePZFJwjEdsfApiHj7OCsV4dJvrwSov7aTQyFmUcU7UDLNoOD6xmyNI9U1DZZA4d9KIYELZQR6u" 
+            alt="Editorial"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-8 relative z-10 flex flex-col md:flex-row items-center gap-20">
+          <div className="flex-1">
+            <h2 className="font-serif text-6xl md:text-7xl mb-8 italic">The Curator of Human Knowledge</h2>
+            <p className="text-stone-400 text-xl leading-relaxed mb-12">
+              At Gnosis, we believe research is an art form. Our platform serves as a digital gallery for the most profound discoveries of our time.
+            </p>
+            <div className="grid grid-cols-2 gap-12 border-t border-stone-800 pt-12">
+              <div>
+                <span className="block text-4xl font-serif text-emerald-400 mb-2">1.2M+</span>
+                <span className="text-xs uppercase tracking-widest text-stone-500">Citations cataloged</span>
+              </div>
+              <div>
+                <span className="block text-4xl font-serif text-emerald-400 mb-2">45k</span>
+                <span className="text-xs uppercase tracking-widest text-stone-500">Active contributors</span>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-1/3 aspect-[3/4] bg-stone-800 rounded-xl overflow-hidden shadow-2xl relative group">
+            <img 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBmFu1TT5ldgSXqRTUy3C-hns4F2nI8zF1NEu9nSS9U53yZpwQs24rfunZLHy6wUxV5arcmPe15w5JRe6w-RK1DA0uGKGjeA-2LBgYj7ELJrHPB_m3cDrUlr3W33wzJTXO0JGERo05_oH0GuOxz8xGQxGwXwbHWEvagqilt3PwAqxWIcz8J_UzncHsX-IlTlr6WRwwYW58ARVu-utEeYrsRklRD0-KuxYrkq51PfqozoD6DcVywViBxTa3Pr7pmYOLr9ayodUUro-E" 
+              alt="Feature"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent"></div>
+            <div className="absolute bottom-8 left-8">
+              <span className="bg-emerald-500 text-stone-950 text-[10px] font-bold px-2 py-1 rounded mb-4 inline-block uppercase">Feature</span>
+              <h4 className="font-serif text-2xl text-white">Ethical AI in Scholarly Publishing</h4>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Landing;

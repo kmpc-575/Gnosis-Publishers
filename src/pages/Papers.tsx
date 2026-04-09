@@ -1,0 +1,164 @@
+import React from 'react';
+import { ShoppingCart, Edit3, BookOpen } from 'lucide-react';
+import { motion } from 'motion/react';
+
+const Papers: React.FC = () => {
+  const papers = [
+    {
+      dept: 'CSE',
+      price: '$499',
+      title: 'Scalable Neural Architecture for Real-time Edge Computing',
+      desc: 'A comprehensive study on optimizing deep learning models for low-latency IoT applications using pruning techniques.',
+      color: 'bg-tertiary-container'
+    },
+    {
+      dept: 'ECE',
+      price: '$350',
+      title: '5G Signal Interference Mitigation in Urban Environments',
+      desc: 'Exploring novel beamforming algorithms to enhance signal integrity in high-density metropolitan deployments.',
+      color: 'bg-tertiary-container'
+    },
+    {
+      dept: 'Mechanical',
+      price: '$420',
+      title: 'Thermodynamic Analysis of Hybrid Propulsion Systems',
+      desc: 'Efficiency benchmarking of dual-cycle engines in long-haul commercial aerospace applications.',
+      color: 'bg-tertiary-container'
+    },
+    {
+      dept: 'Biotech',
+      price: '$580',
+      title: 'CRISPR-Cas9 Interventions in Plant Metabolic Engineering',
+      desc: 'Analyzing genetic modifications in drought-resistant cereal crops for sustainable agriculture.',
+      color: 'bg-tertiary-container'
+    },
+    {
+      dept: 'Civil',
+      price: '$310',
+      title: 'Seismic Resistance of Smart Composite Concrete Structures',
+      desc: 'Evaluation of polymer-reinforced concrete under simulated high-magnitude seismic stress tests.',
+      color: 'bg-tertiary-container'
+    }
+  ];
+
+  return (
+    <div className="bg-surface min-h-screen">
+      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+        {/* Hero Section */}
+        <header className="mb-20 text-center md:text-left">
+          <motion.h1 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="font-serif text-5xl md:text-7xl text-primary font-light leading-tight mb-6"
+          >
+            Buy Research <span className="italic">Papers</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="max-w-2xl text-on-surface-variant text-lg leading-relaxed"
+          >
+            Access a curated repository of high-impact scholarly manuscripts vetted by our global academic board. Accelerate your research with peer-reviewed foundational papers across diverse engineering and scientific disciplines.
+          </motion.p>
+        </header>
+
+        {/* Department Grid Section */}
+        <section className="mb-24">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="font-serif text-3xl italic text-on-surface">Department-wise Repository</h2>
+            <div className="flex gap-2">
+              <span className="bg-surface-container-low px-4 py-2 rounded-lg text-sm font-semibold text-primary">All Disciplines</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {papers.map((paper, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-surface-container-lowest rounded-xl p-8 transition-all hover:translate-y-[-4px] border border-outline-variant/10"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <span className={`${paper.color} text-on-tertiary-container px-3 py-1 rounded text-xs font-bold tracking-wider uppercase`}>
+                    {paper.dept}
+                  </span>
+                  <span className="font-serif text-2xl text-primary">{paper.price}</span>
+                </div>
+                <h3 className="font-serif text-xl mb-4 text-on-surface">{paper.title}</h3>
+                <p className="text-on-surface-variant text-sm mb-8 leading-relaxed">{paper.desc}</p>
+                <button className="w-full bg-surface-container-highest text-primary font-bold py-3 rounded-full hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2">
+                  Buy Now <ShoppingCart size={16} />
+                </button>
+              </motion.div>
+            ))}
+
+            {/* View All Grid Cell */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-primary/5 rounded-xl border-2 border-dashed border-primary/20 flex flex-col items-center justify-center p-8 text-center group cursor-pointer"
+            >
+              <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                <BookOpen className="text-on-primary-container" size={32} />
+              </div>
+              <h3 className="font-serif text-xl text-primary mb-2">Browse All 1,200+ Papers</h3>
+              <p className="text-on-surface-variant text-xs">Search by author, DOI, or keyword.</p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Custom Topic Section */}
+        <section className="bg-surface-container-low rounded-xl overflow-hidden relative border-t-4 border-secondary">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="p-10 md:p-16">
+              <span className="text-secondary font-bold tracking-widest text-xs uppercase mb-4 block">Premium Service</span>
+              <h2 className="font-serif text-4xl md:text-5xl text-on-surface mb-6 leading-tight">
+                Need a Custom <span className="italic">Research Paper?</span>
+              </h2>
+              <p className="text-on-surface-variant mb-10 leading-relaxed">
+                Our board of PhD researchers provides bespoke literature reviews, theoretical frameworks, and experimental design manuscripts tailored to your specific academic requirements. 
+              </p>
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Research Domain</label>
+                    <input 
+                      className="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20" 
+                      placeholder="e.g. Nanotechnology" 
+                      type="text"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Proposed Topic</label>
+                    <input 
+                      className="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-sm focus:ring-1 focus:ring-primary/20" 
+                      placeholder="The role of carbon nanotubes..." 
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <button className="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all flex items-center gap-3" type="button">
+                  Request Custom Paper <Edit3 size={20} />
+                </button>
+              </form>
+            </div>
+            <div className="relative hidden lg:block overflow-hidden">
+              <img 
+                className="absolute inset-0 w-full h-full object-cover" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjytbcQTD3p0acI1OG293vftQxMiJEcIjKwfHB3vw3r7h0MqpIKyNajxXR5jHnBP_-FFIDBcr3SM7bfxvQFQAZFQR5mCVqEqHCvrXpB-rVaeQxG7M5-gyUaN4VirxxWkQH9jxhiVixRGo3ioRmD5VF9b8jLwlMQcuCLauvm1IUPY2N-5Vpc_yfmkIAhyWTPwDaKRuOMDNScdvjnp77C8CnQUG_rLnuOQGmi4LTCIPGkvaRz9uVIVxexNhXYPnua1bGF1gX4qzk0xdm" 
+                alt="Custom Paper"
+              />
+              <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+};
+
+export default Papers;
