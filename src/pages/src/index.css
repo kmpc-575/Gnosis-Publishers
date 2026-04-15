@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap');
+
+@theme {
+  --font-serif: "Newsreader", serif;
+  --font-sans: "Manrope", sans-serif;
+
+  --color-primary: #0d631b;
+  --color-primary-container: #2e7d32;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #cbffc2;
+  
+  --color-secondary: #b6171e;
+  --color-secondary-container: #da3433;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #fffbff;
+
+  --color-tertiary: #923357;
+  --color-tertiary-container: #b14b6f;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #ffedf0;
+
+  --color-surface: #f8faf8;
+  --color-surface-dim: #d8dad9;
+  --color-surface-bright: #f8faf8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f2;
+  --color-surface-container: #eceeec;
+  --color-surface-container-high: #e6e9e7;
+  --color-surface-container-highest: #e1e3e1;
+  
+  --color-on-surface: #191c1b;
+  --color-on-surface-variant: #40493d;
+  --color-outline: #707a6c;
+  --color-outline-variant: #bfcaba;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-surface text-on-surface;
+  }
+  h1, h2, h3, h4, .font-serif {
+    @apply font-serif;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
