@@ -88,7 +88,7 @@ const Projects: React.FC = () => {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-7xl font-serif italic text-on-surface mb-4 leading-tight"
+            className="text-4xl sm:text-6xl md:text-7xl font-serif italic text-on-surface mb-4 leading-tight"
           >
             Buy Projects
           </motion.h1>
@@ -104,8 +104,8 @@ const Projects: React.FC = () => {
 
         {/* Ready-made Projects Section */}
         <section className="mb-32">
-          <div className="flex items-baseline justify-between mb-12">
-            <h2 className="text-4xl font-serif text-on-surface">Ready-made projects</h2>
+          <div className="flex flex-col sm:flex-row items-baseline justify-between mb-12 gap-4">
+            <h2 className="text-3xl sm:text-4xl font-serif text-on-surface">Ready-made projects</h2>
           </div>
 
           {loading ? (
@@ -155,8 +155,8 @@ const Projects: React.FC = () => {
           <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-container via-transparent to-transparent pointer-events-none"></div>
           <div className="relative z-10 grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-5xl font-serif italic mb-6 leading-tight">Custom project solutions</h2>
-              <p className="text-lg opacity-90 mb-10 leading-relaxed">Looking for a specialized architecture or a niche research implementation? Our Academic Board provides bespoke consultation services to tailor projects to your exact specifications.</p>
+              <h2 className="text-3xl sm:text-5xl font-serif italic mb-6 leading-tight">Custom project solutions</h2>
+              <p className="text-base sm:text-lg opacity-90 mb-10 leading-relaxed">Looking for a specialized architecture or a niche research implementation? Our Academic Board provides bespoke consultation services to tailor projects to your exact specifications.</p>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-center gap-3">
                   <CheckCircle className="text-on-primary" size={20} />

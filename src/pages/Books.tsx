@@ -83,7 +83,7 @@ const Books: React.FC = () => {
             <motion.h1 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-6xl md:text-8xl font-serif italic text-primary leading-tight mb-8"
+              className="text-4xl sm:text-6xl md:text-8xl font-serif italic text-primary leading-tight mb-8"
             >
               Book Services
             </motion.h1>
@@ -113,7 +113,7 @@ const Books: React.FC = () => {
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div>
-              <h2 className="text-4xl font-serif text-on-surface mb-4">Academic Textbooks & Monographs</h2>
+              <h2 className="text-3xl sm:text-4xl font-serif text-on-surface mb-4">Academic Textbooks & Monographs</h2>
               <p className="text-on-surface-variant">Essential volumes peer-reviewed by our global academic board.</p>
             </div>
           </div>
@@ -163,7 +163,7 @@ const Books: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5">
               <span className="text-secondary font-bold text-xs uppercase tracking-widest">Bespoke Publishing</span>
-              <h2 className="text-5xl font-serif mt-4 mb-8 leading-tight">Your Expertise, <br/>Our Narrative Precision.</h2>
+              <h2 className="text-3xl sm:text-5xl font-serif mt-4 mb-8 leading-tight">Your Expertise, <br/>Our Narrative Precision.</h2>
               <div className="space-y-8">
                 <div className="flex gap-6">
                   <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
@@ -223,7 +223,7 @@ const Books: React.FC = () => {
         <div className="max-w-4xl mx-auto rounded-xl bg-emerald-900 p-12 text-center text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-800 rounded-full -mr-32 -mt-32 opacity-50 blur-3xl"></div>
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-serif italic mb-6">Ready to initiate your manuscript?</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif italic mb-6">Ready to initiate your manuscript?</h2>
             <p className="text-emerald-100 mb-10 max-w-xl mx-auto opacity-80">Our editors are ready to evaluate your proposal within 14 business days. Begin your journey toward academic immortality today.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="mailto:gnosispublishers26@gmail.com?subject=Manuscript Proposal Submission" className="bg-white text-emerald-900 px-8 py-3 rounded-full font-bold hover:bg-emerald-50 active:scale-95 transition-all">Submit Proposal</a>

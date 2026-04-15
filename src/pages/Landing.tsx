@@ -3,10 +3,12 @@ import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout 
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const Landing: React.FC = () => {
   const [marqueeText, setMarqueeText] = useState('Recent: Deep Learning Paper Published • Blockchain Patent Filed • Quantum Physics Journal Volume 10');
   const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -46,7 +48,9 @@ const Landing: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-serif text-7xl md:text-9xl text-primary leading-tight tracking-tighter"
+            className={`font-serif text-primary leading-tight tracking-tighter ${
+              isMobile ? 'text-6xl' : 'text-5xl sm:text-7xl md:text-9xl'
+            }`}
           >
             Gnosis Publishers
           </motion.h1>
@@ -171,14 +175,9 @@ const Landing: React.FC = () => {
                 Access ground-breaking whitepapers and peer-reviewed research papers across technology, medicine, and the humanities.
               </p>
             </div>
-            <div className="flex items-center justify-between relative z-10">
-              <span className="text-primary font-bold text-2xl italic font-serif">
-                ₹19,900 <span className="text-xs text-on-surface-variant not-italic font-sans">starting</span>
-              </span>
-              <button className="px-6 py-3 bg-on-surface text-surface rounded-full font-bold text-sm hover:bg-primary transition-colors flex items-center gap-2">
-                View & Buy <ArrowRight size={16} />
-              </button>
-            </div>
+            <button className="w-full py-3 bg-on-surface text-surface rounded-full font-bold text-sm hover:bg-primary transition-colors flex items-center justify-center gap-2 relative z-10 mt-auto">
+              View & Buy <ArrowRight size={16} />
+            </button>
           </div>
 
           {/* Smaller Grid Cards */}
@@ -256,17 +255,17 @@ const Landing: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto px-8 relative z-10 flex flex-col md:flex-row items-center gap-20">
           <div className="flex-1">
-            <h2 className="font-serif text-6xl md:text-7xl mb-8 italic">The Curator of Human Knowledge</h2>
-            <p className="text-stone-400 text-xl leading-relaxed mb-12">
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl mb-8 italic leading-tight">The Curator of Human Knowledge</h2>
+            <p className="text-stone-400 text-lg sm:text-xl leading-relaxed mb-12">
               At Gnosis, we believe research is an art form. Our platform serves as a digital gallery for the most profound discoveries of our time.
             </p>
-            <div className="grid grid-cols-2 gap-12 border-t border-stone-800 pt-12">
+            <div className="grid grid-cols-2 gap-8 sm:gap-12 border-t border-stone-800 pt-12">
               <div>
-                <span className="block text-4xl font-serif text-emerald-400 mb-2">1.2M+</span>
+                <span className="block text-3xl sm:text-4xl font-serif text-emerald-400 mb-2">1.2M+</span>
                 <span className="text-xs uppercase tracking-widest text-stone-500">Citations cataloged</span>
               </div>
               <div>
-                <span className="block text-4xl font-serif text-emerald-400 mb-2">45k</span>
+                <span className="block text-3xl sm:text-4xl font-serif text-emerald-400 mb-2">45k</span>
                 <span className="text-xs uppercase tracking-widest text-stone-500">Active contributors</span>
               </div>
             </div>

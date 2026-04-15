@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Mail, Share2, LogOut, Settings, UserCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Mail, Share2, LogOut, Settings, UserCircle, Menu, X, Library, BookOpen, Gavel, Book } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
+
+import { useIsMobile } from '../hooks/useIsMobile';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +16,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { user, userProfile, isAdmin, signOut, loading } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!loading && user && !isAdmin && !userProfile && location.pathname !== '/profile-setup') {
@@ -46,37 +54,39 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 Gnosis Publishers
               </span>
             </Link>
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`text-sm font-semibold tracking-wide transition-colors hover:text-emerald-800 ${
-                    location.pathname === link.path
-                      ? 'text-emerald-900 border-b-2 border-emerald-800 pb-1'
-                      : 'text-stone-600'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              {isAdmin && (
-                <Link
-                  to="/admin"
-                  className={`flex items-center gap-2 text-sm font-bold tracking-wide transition-colors hover:text-emerald-800 ${
-                    location.pathname === '/admin'
-                      ? 'text-emerald-900 border-b-2 border-emerald-800 pb-1'
-                      : 'text-stone-600'
-                  }`}
-                >
-                  <Settings size={16} /> Dashboard
-                </Link>
-              )}
-            </div>
+            {!isMobile && (
+              <div className="hidden md:flex items-center gap-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`text-sm font-semibold tracking-wide transition-colors hover:text-emerald-800 ${
+                      location.pathname === link.path
+                        ? 'text-emerald-900 border-b-2 border-emerald-800 pb-1'
+                        : 'text-stone-600'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className={`flex items-center gap-2 text-sm font-bold tracking-wide transition-colors hover:text-emerald-800 ${
+                      location.pathname === '/admin'
+                        ? 'text-emerald-900 border-b-2 border-emerald-800 pb-1'
+                        : 'text-stone-600'
+                    }`}
+                  >
+                    <Settings size={16} /> Dashboard
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-4">
-            {user ? (
-              <div className="flex items-center gap-4">
+            {!isMobile && user ? (
+              <div className="flex items-center gap-2 md:gap-4">
                 <span className="text-xs font-semibold text-stone-500 hidden lg:block">{user.email}</span>
                 <Link 
                   to="/profile-setup"
@@ -93,8 +103,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <LogOut size={18} />
                 </button>
               </div>
-            ) : (
-              <>
+            ) : !isMobile && (
+              <div className="hidden md:flex items-center gap-4">
                 <button 
                   onClick={() => setIsAuthModalOpen(true)}
                   className="px-5 py-2 text-sm font-bold text-emerald-900 hover:bg-emerald-100/50 rounded-full transition-all active:scale-95"
@@ -107,10 +117,92 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 >
                   Sign Up
                 </button>
-              </>
+              </div>
+            )}
+            
+            {/* Mobile Navigation Toggle */}
+            {isMobile && (
+              <div className="flex items-center gap-4">
+                {user && (
+                  <Link 
+                    to="/profile-setup"
+                    className="p-2 text-stone-600 hover:bg-stone-100 rounded-full transition-all"
+                  >
+                    <UserCircle size={24} />
+                  </Link>
+                )}
+                <button 
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 text-emerald-900 hover:bg-emerald-100 rounded-full transition-colors"
+                >
+                  {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
             )}
           </div>
         </nav>
+
+        {/* Mobile Navigation Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-emerald-50 border-t border-outline-variant/10 overflow-hidden"
+            >
+              <div className="flex flex-col p-6 gap-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`text-lg font-serif italic transition-colors ${
+                      location.pathname === link.path
+                        ? 'text-emerald-900'
+                        : 'text-stone-600'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className={`flex items-center gap-2 text-lg font-serif italic transition-colors ${
+                      location.pathname === '/admin'
+                        ? 'text-emerald-900'
+                        : 'text-stone-600'
+                    }`}
+                  >
+                    <Settings size={20} /> Dashboard
+                  </Link>
+                )}
+                {!user && (
+                  <div className="flex flex-col gap-3 pt-4 border-t border-outline-variant/10">
+                    <button 
+                      onClick={() => {
+                        setIsAuthModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full py-3 text-center font-bold text-emerald-900 bg-emerald-100 rounded-xl"
+                    >
+                      Login
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setIsAuthModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full py-3 text-center font-bold bg-primary text-on-primary rounded-xl shadow-lg"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <main className="flex-grow">
@@ -126,7 +218,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Footer */}
       <footer className="bg-stone-100 border-t border-outline-variant/10 mt-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-6 md:px-12 py-16 max-w-7xl mx-auto">
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4 group">
               <img 
@@ -256,6 +348,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
         </svg>
       </a>
+
+      {/* Mobile Bottom Navigation */}
+      {isMobile && (
+        <nav className="fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-lg border-t border-outline-variant/10 z-[60] px-6 py-3 flex justify-between items-center shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+          {navLinks.slice(0, 4).map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`flex flex-col items-center gap-1 transition-colors ${
+                location.pathname === link.path ? 'text-primary' : 'text-stone-400'
+              }`}
+            >
+              {link.name === 'Papers' && <Library size={20} />}
+              {link.name === 'Journals' && <BookOpen size={20} />}
+              {link.name === 'Patents' && <Gavel size={20} />}
+              {link.name === 'Books' && <Book size={20} />}
+              <span className="text-[10px] font-bold uppercase tracking-tighter">{link.name}</span>
+            </Link>
+          ))}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`flex flex-col items-center gap-1 transition-colors ${
+              isMobileMenuOpen ? 'text-primary' : 'text-stone-400'
+            }`}
+          >
+            <Menu size={20} />
+            <span className="text-[10px] font-bold uppercase tracking-tighter">More</span>
+          </button>
+        </nav>
+      )}
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>

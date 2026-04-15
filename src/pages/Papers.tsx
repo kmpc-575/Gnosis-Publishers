@@ -81,7 +81,7 @@ const Papers: React.FC = () => {
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="font-serif text-5xl md:text-7xl text-primary font-light leading-tight mb-6"
+            className="font-serif text-4xl sm:text-5xl md:text-7xl text-primary font-light leading-tight mb-6"
           >
             Buy Research <span className="italic">Papers</span>
           </motion.h1>
@@ -89,7 +89,7 @@ const Papers: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="max-w-2xl text-on-surface-variant text-lg leading-relaxed"
+            className="max-w-2xl text-on-surface-variant text-base sm:text-lg leading-relaxed mx-auto md:mx-0"
           >
             Access a curated repository of high-impact scholarly manuscripts vetted by our global academic board. Accelerate your research with peer-reviewed foundational papers across diverse engineering and scientific disciplines.
           </motion.p>
@@ -158,12 +158,12 @@ const Papers: React.FC = () => {
         {/* Custom Topic Section */}
         <section className="bg-surface-container-low rounded-xl overflow-hidden relative border-t-4 border-secondary">
           <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="p-10 md:p-16">
+            <div className="p-8 sm:p-10 md:p-16">
               <span className="text-secondary font-bold tracking-widest text-xs uppercase mb-4 block">Premium Service</span>
-              <h2 className="font-serif text-4xl md:text-5xl text-on-surface mb-6 leading-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-on-surface mb-6 leading-tight">
                 Need a Custom <span className="italic">Research Paper?</span>
               </h2>
-              <p className="text-on-surface-variant mb-10 leading-relaxed">
+              <p className="text-on-surface-variant mb-10 leading-relaxed text-sm sm:text-base">
                 Our board of PhD researchers provides bespoke literature reviews, theoretical frameworks, and experimental design manuscripts tailored to your specific academic requirements. 
               </p>
               <form 
@@ -198,7 +198,7 @@ const Papers: React.FC = () => {
                     />
                   </div>
                 </div>
-                <button className="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all flex items-center gap-3" type="submit">
+                <button className="w-full sm:w-auto bg-primary text-on-primary px-8 sm:px-10 py-3 sm:py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3" type="submit">
                   Request Custom Paper <Edit3 size={20} />
                 </button>
               </form>

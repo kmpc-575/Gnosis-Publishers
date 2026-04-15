@@ -81,7 +81,7 @@ const Journals: React.FC = () => {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-6xl md:text-8xl font-serif italic text-primary leading-tight mb-6"
+          className="text-4xl sm:text-6xl md:text-8xl font-serif italic text-primary leading-tight mb-6"
         >
           Buy Journal Publications
         </motion.h1>
@@ -97,9 +97,9 @@ const Journals: React.FC = () => {
 
       {/* Department-wise Journals Section */}
       <section className="px-8 pb-24 max-w-7xl mx-auto">
-        <div className="flex items-end justify-between mb-12">
-          <h2 className="text-4xl font-serif text-on-surface">Curated by Department</h2>
-          <div className="h-px flex-grow mx-8 bg-outline-variant/30 mb-3"></div>
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-12 gap-4">
+          <h2 className="text-3xl sm:text-4xl font-serif text-on-surface">Curated by Department</h2>
+          <div className="hidden sm:block h-px flex-grow mx-8 bg-outline-variant/30 mb-3"></div>
           <span className="text-sm font-sans text-outline uppercase tracking-widest">Selected Volumes</span>
         </div>
 
@@ -144,8 +144,8 @@ const Journals: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2">
             <span className="text-primary font-bold text-xs uppercase tracking-widest mb-4 block">Bespoke Knowledge</span>
-            <h2 className="text-5xl font-serif text-on-surface leading-tight mb-8">Can't find a specific focus? Curate your Custom Journal.</h2>
-            <p className="text-on-surface-variant text-lg leading-relaxed mb-10">
+            <h2 className="text-3xl sm:text-5xl font-serif text-on-surface leading-tight mb-8">Can't find a specific focus? Curate your Custom Journal.</h2>
+            <p className="text-on-surface-variant text-base sm:text-lg leading-relaxed mb-10">
               Gnosis Publishers offers a unique service for academic institutions and industry leaders to compile custom journal topics tailored to specific research agendas.
             </p>
             <ul className="space-y-6 mb-12">
@@ -211,7 +211,7 @@ const Journals: React.FC = () => {
 
       {/* Newsletter / Contact CTA */}
       <section className="py-24 px-8 text-center max-w-4xl mx-auto">
-        <h3 className="text-4xl font-serif text-on-surface mb-6">Stay informed on the next release.</h3>
+        <h3 className="text-3xl sm:text-4xl font-serif text-on-surface mb-6">Stay informed on the next release.</h3>
         <p className="text-on-surface-variant mb-10">Get monthly updates on recently indexed journals and exclusive early access pricing.</p>
         <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
           <input className="flex-grow px-6 py-4 bg-surface-container-low border-none rounded-full focus:ring-1 focus:ring-primary/20 text-sm" placeholder="gnosispublishers26@gmail.com" type="email"/>

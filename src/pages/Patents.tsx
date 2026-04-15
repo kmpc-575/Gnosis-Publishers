@@ -83,7 +83,7 @@ const Patents: React.FC = () => {
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-8xl font-serif font-light leading-[1.1] text-on-surface mb-8"
+              className="text-4xl sm:text-6xl md:text-8xl font-serif font-light leading-[1.1] text-on-surface mb-8"
             >
               Patent <span className="italic text-primary">Services</span>.
             </motion.h1>
@@ -95,11 +95,11 @@ const Patents: React.FC = () => {
             >
               Secure your scientific legacy. From pre-filed innovative architectures to custom international filing strategies, Gnosis provides the editorial precision your inventions deserve.
             </motion.p>
-            <div className="flex gap-4">
-              <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-full font-bold shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-full font-bold shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all w-full sm:w-auto">
                 Browse Ready-Made
               </button>
-              <button className="text-primary font-bold px-8 py-4 border-b-2 border-surface-tint/20 hover:border-surface-tint transition-all">
+              <button className="text-primary font-bold px-8 py-4 border-b-2 border-surface-tint/20 hover:border-surface-tint transition-all w-full sm:w-auto">
                 View Pricing
               </button>
             </div>
@@ -120,8 +120,8 @@ const Patents: React.FC = () => {
       <section className="bg-surface-container-low py-24 px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-16">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-serif mb-4">Ready-made project patents</h2>
+            <div className="max-w-2xl text-center md:text-left">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif mb-4">Ready-made project patents</h2>
               <p className="text-on-surface-variant">Validated, pre-vetted patent packages available for immediate acquisition. Every listing includes comprehensive technical documentation and legal transfer frameworks.</p>
             </div>
           </div>
@@ -173,7 +173,7 @@ const Patents: React.FC = () => {
       <section className="py-24 px-8 bg-surface">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl font-serif mb-6 text-on-surface">Custom patent services</h2>
+            <h2 className="text-3xl sm:text-5xl font-serif mb-6 text-on-surface">Custom patent services</h2>
             <p className="text-on-surface-variant max-w-xl mx-auto italic">Bespoke intellectual property development, from initial prior-art research to full global application filing and ethical auditing.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -197,7 +197,7 @@ const Patents: React.FC = () => {
               <a href="mailto:gnosispublishers26@gmail.com?subject=Patent Research Phase Inquiry" className="block text-center w-full py-3 rounded-full border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Begin Inquiry</a>
             </div>
 
-            <div className="bg-surface-container-lowest p-8 rounded-2xl ring-2 ring-primary relative shadow-2xl shadow-primary/5 -translate-y-4">
+            <div className="bg-surface-container-lowest p-8 rounded-2xl ring-2 ring-primary relative shadow-2xl shadow-primary/5 -translate-y-0 md:-translate-y-4">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">Most Professional</div>
               <div className="mb-8">
                 <h4 className="text-sm font-bold tracking-[0.2em] text-on-surface-variant uppercase mb-2">Full Filing</h4>
