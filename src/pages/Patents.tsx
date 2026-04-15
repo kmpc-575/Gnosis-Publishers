@@ -108,7 +108,7 @@ const Patents: React.FC = () => {
             <div className="absolute inset-0 bg-primary/5 rounded-[4rem] rotate-3 -z-10 translate-x-4"></div>
             <img 
               alt="Patent Hero" 
-              className="w-full h-auto max-h-[500px] object-contain rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 p-12" 
+              className="w-full h-auto max-h-[500px] object-contain rounded-[3rem] shadow-2xl transition-all duration-700 p-12" 
               src="/GP.ico"
               referrerPolicy="no-referrer"
             />
