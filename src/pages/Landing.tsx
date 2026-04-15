@@ -42,7 +42,7 @@ const Landing: React.FC = () => {
             className="flex justify-center mb-4"
           >
             <img 
-              src={LOGO_URL} 
+              src="/GP.ico" 
               alt="Gnosis Logo" 
               className="h-32 md:h-48 w-auto object-contain"
               referrerPolicy="no-referrer"
