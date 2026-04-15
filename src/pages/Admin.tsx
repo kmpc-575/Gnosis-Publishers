@@ -12,7 +12,11 @@ const Admin: React.FC = () => {
   const [editForm, setEditForm] = useState<Partial<ContentItem>>({});
 
   const [marqueeText, setMarqueeText] = useState('');
+  const [marqueeSpeed, setMarqueeSpeed] = useState('20s');
+  const [marqueeDirection, setMarqueeDirection] = useState('left');
+  const [marqueePauseOnHover, setMarqueePauseOnHover] = useState(true);
   const [savingMarquee, setSavingMarquee] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (isAdmin) {
@@ -22,26 +26,96 @@ const Admin: React.FC = () => {
   }, [isAdmin]);
 
   const fetchSettings = async () => {
-    const { data, error } = await supabase
+    const { data: textData } = await supabase
       .from('site_settings')
       .select('*')
       .eq('key', 'marquee_text')
       .single();
     
-    if (data) {
-      setMarqueeText(data.value);
+    if (textData) {
+      setMarqueeText(textData.value);
+    }
+
+    const { data: speedData } = await supabase
+      .from('site_settings')
+      .select('*')
+      .eq('key', 'marquee_speed')
+      .single();
+    
+    if (speedData) {
+      setMarqueeSpeed(speedData.value);
+    }
+
+    const { data: directionData } = await supabase
+      .from('site_settings')
+      .select('*')
+      .eq('key', 'marquee_direction')
+      .single();
+    
+    if (directionData) {
+      setMarqueeDirection(directionData.value);
+    }
+
+    const { data: pauseData } = await supabase
+      .from('site_settings')
+      .select('*')
+      .eq('key', 'marquee_pause_on_hover')
+      .single();
+    
+    if (pauseData) {
+      setMarqueePauseOnHover(pauseData.value === 'true');
     }
   };
 
   const handleSaveMarquee = async () => {
     setSavingMarquee(true);
-    const { error } = await supabase
+    await supabase
       .from('site_settings')
       .upsert({ key: 'marquee_text', value: marqueeText });
     
-    if (error) console.error('Error saving marquee:', error);
-    else alert('Marquee updated successfully!');
+    await supabase
+      .from('site_settings')
+      .upsert({ key: 'marquee_speed', value: marqueeSpeed });
+
+    await supabase
+      .from('site_settings')
+      .upsert({ key: 'marquee_direction', value: marqueeDirection });
+
+    await supabase
+      .from('site_settings')
+      .upsert({ key: 'marquee_pause_on_hover', value: marqueePauseOnHover.toString() });
+    
+    alert('Marquee settings updated successfully!');
     setSavingMarquee(false);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `content/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('images')
+        .getPublicUrl(filePath);
+
+      setEditForm({ ...editForm, image_url: data.publicUrl });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Make sure "images" bucket exists and is public.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const fetchItems = async () => {
@@ -111,27 +185,77 @@ const Admin: React.FC = () => {
       {/* Marquee Management Section */}
       <section className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
         <h2 className="text-xl font-serif text-primary mb-6 flex items-center gap-2">
-          <Zap size={20} className="text-amber-500" /> Marquee Announcement
+          <Zap size={20} className="text-amber-500" /> Marquee Announcement Control
         </h2>
-        <div className="flex flex-col md:flex-row gap-4">
-          <input 
-            type="text"
-            value={marqueeText}
-            onChange={(e) => setMarqueeText(e.target.value)}
-            placeholder="Enter announcement text (use • to separate items)"
-            className="flex-grow px-4 py-3 bg-surface border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary outline-none"
-          />
-          <button 
-            onClick={handleSaveMarquee}
-            disabled={savingMarquee}
-            className="bg-on-surface text-surface px-8 py-3 rounded-xl font-bold hover:bg-primary transition-all disabled:opacity-50"
-          >
-            {savingMarquee ? 'Saving...' : 'Update Marquee'}
-          </button>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-stone-500 uppercase tracking-widest">Announcement Text</label>
+            <input 
+              type="text"
+              value={marqueeText}
+              onChange={(e) => setMarqueeText(e.target.value)}
+              placeholder="Enter announcement text (use • to separate items)"
+              className="w-full px-4 py-3 bg-surface border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary outline-none"
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-bold text-stone-500 uppercase tracking-widest">Scroll Speed (seconds)</label>
+              <div className="flex items-center gap-4">
+                <input 
+                  type="range"
+                  min="5"
+                  max="60"
+                  step="5"
+                  value={parseInt(marqueeSpeed)}
+                  onChange={(e) => setMarqueeSpeed(`${e.target.value}s`)}
+                  className="flex-grow accent-primary"
+                />
+                <span className="font-mono font-bold text-primary w-12">{marqueeSpeed}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-bold text-stone-500 uppercase tracking-widest">Direction</label>
+              <select 
+                value={marqueeDirection}
+                onChange={(e) => setMarqueeDirection(e.target.value)}
+                className="px-4 py-2 bg-surface border border-outline-variant/30 rounded-xl outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="left">Left (Normal)</option>
+                <option value="right">Right (Reverse)</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-bold text-stone-500 uppercase tracking-widest">Behavior</label>
+              <label className="flex items-center gap-3 cursor-pointer py-2">
+                <input 
+                  type="checkbox"
+                  checked={marqueePauseOnHover}
+                  onChange={(e) => setMarqueePauseOnHover(e.target.checked)}
+                  className="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm font-medium text-on-surface">Pause on Hover</span>
+              </label>
+            </div>
+          </div>
+          
+          <div className="flex justify-end">
+            <button 
+              onClick={handleSaveMarquee}
+              disabled={savingMarquee}
+              className="bg-on-surface text-surface px-12 py-3 rounded-xl font-bold hover:bg-primary transition-all disabled:opacity-50"
+            >
+              {savingMarquee ? 'Saving...' : 'Save Marquee Settings'}
+            </button>
+          </div>
+          
+          <p className="text-[10px] text-stone-400 mt-3 uppercase tracking-widest font-bold">
+            Tip: Lower seconds = Faster scroll. Use " • " to separate different news items.
+          </p>
         </div>
-        <p className="text-[10px] text-stone-400 mt-3 uppercase tracking-widest font-bold">
-          Tip: Use " • " to separate different news items in the scrolling bar.
-        </p>
       </section>
 
       {/* Content Items List */}
@@ -175,12 +299,41 @@ const Admin: React.FC = () => {
                     onChange={e => setEditForm({...editForm, category: e.target.value})}
                     placeholder="Category/Department"
                   />
-                  <input 
-                    className="px-4 py-3 rounded-xl border border-outline-variant/30 bg-surface focus:ring-2 focus:ring-primary outline-none col-span-full" 
-                    value={editForm.image_url || ''} 
-                    onChange={e => setEditForm({...editForm, image_url: e.target.value})}
-                    placeholder="Image URL (optional)"
-                  />
+                  <div className="col-span-full space-y-2">
+                    <label className="text-xs font-bold text-stone-500 uppercase tracking-widest">Listing Image</label>
+                    <div className="flex flex-col md:flex-row gap-4 items-start">
+                      <div className="flex-grow w-full">
+                        <input 
+                          className="w-full px-4 py-3 rounded-xl border border-outline-variant/30 bg-surface focus:ring-2 focus:ring-primary outline-none" 
+                          value={editForm.image_url || ''} 
+                          onChange={e => setEditForm({...editForm, image_url: e.target.value})}
+                          placeholder="Image URL (optional)"
+                        />
+                      </div>
+                      <div className="relative shrink-0">
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          onChange={handleImageUpload}
+                          className="hidden" 
+                          id="image-upload"
+                        />
+                        <label 
+                          htmlFor="image-upload"
+                          className={`px-6 py-3 rounded-xl font-bold text-sm cursor-pointer transition-all flex items-center gap-2 ${
+                            uploading ? 'bg-stone-100 text-stone-400' : 'bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary'
+                          }`}
+                        >
+                          {uploading ? 'Uploading...' : 'Upload Image'}
+                        </label>
+                      </div>
+                    </div>
+                    {editForm.image_url && (
+                      <div className="mt-2 h-20 w-20 rounded-lg overflow-hidden border border-outline-variant/20">
+                        <img src={editForm.image_url} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
                   <textarea 
                     className="px-4 py-3 rounded-xl border border-outline-variant/30 bg-surface focus:ring-2 focus:ring-primary outline-none col-span-full min-h-[100px]" 
                     value={editForm.description} 
@@ -226,6 +379,32 @@ const Admin: React.FC = () => {
                         value={editForm.category} 
                         onChange={e => setEditForm({...editForm, category: e.target.value})}
                       />
+                      <div className="col-span-full flex gap-4 items-center">
+                        <input 
+                          className="flex-grow px-4 py-2 rounded-xl border border-outline-variant/30 bg-surface" 
+                          value={editForm.image_url || ''} 
+                          onChange={e => setEditForm({...editForm, image_url: e.target.value})}
+                          placeholder="Image URL"
+                        />
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          onChange={handleImageUpload}
+                          className="hidden" 
+                          id={`image-upload-${item.id}`}
+                        />
+                        <label 
+                          htmlFor={`image-upload-${item.id}`}
+                          className={`px-4 py-2 rounded-xl font-bold text-xs cursor-pointer transition-all ${
+                            uploading ? 'bg-stone-100 text-stone-400' : 'bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary'
+                          }`}
+                        >
+                          {uploading ? '...' : 'Upload'}
+                        </label>
+                        {editForm.image_url && (
+                          <img src={editForm.image_url} alt="Preview" className="h-10 w-10 rounded object-cover border border-outline-variant/20" />
+                        )}
+                      </div>
                     </div>
                     <div className="flex justify-end gap-2">
                       <button onClick={handleSave} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg"><Save size={20} /></button>

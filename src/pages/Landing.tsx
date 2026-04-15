@@ -7,19 +7,52 @@ import { useIsMobile } from '../hooks/useIsMobile';
 
 const Landing: React.FC = () => {
   const [marqueeText, setMarqueeText] = useState('Recent: Deep Learning Paper Published • Blockchain Patent Filed • Quantum Physics Journal Volume 10');
+  const [marqueeSpeed, setMarqueeSpeed] = useState('20s');
+  const [marqueeDirection, setMarqueeDirection] = useState('left');
+  const [marqueePauseOnHover, setMarqueePauseOnHover] = useState(true);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchSettings = async () => {
-      const { data, error } = await supabase
+      const { data: textData } = await supabase
         .from('site_settings')
         .select('*')
         .eq('key', 'marquee_text')
         .single();
       
-      if (data) {
-        setMarqueeText(data.value);
+      if (textData) {
+        setMarqueeText(textData.value);
+      }
+
+      const { data: speedData } = await supabase
+        .from('site_settings')
+        .select('*')
+        .eq('key', 'marquee_speed')
+        .single();
+      
+      if (speedData) {
+        setMarqueeSpeed(speedData.value);
+      }
+
+      const { data: directionData } = await supabase
+        .from('site_settings')
+        .select('*')
+        .eq('key', 'marquee_direction')
+        .single();
+      
+      if (directionData) {
+        setMarqueeDirection(directionData.value);
+      }
+
+      const { data: pauseData } = await supabase
+        .from('site_settings')
+        .select('*')
+        .eq('key', 'marquee_pause_on_hover')
+        .single();
+      
+      if (pauseData) {
+        setMarqueePauseOnHover(pauseData.value === 'true');
       }
     };
     fetchSettings();
@@ -90,7 +123,13 @@ const Landing: React.FC = () => {
 
       {/* Marquee News */}
       <div className="bg-primary-container text-on-primary-container py-3 border-y border-outline-variant/10 overflow-hidden">
-        <div className="flex whitespace-nowrap animate-marquee">
+        <div 
+          className={`flex whitespace-nowrap animate-marquee ${marqueePauseOnHover ? 'hover:[animation-play-state:paused]' : ''}`}
+          style={{ 
+            animationDuration: marqueeSpeed,
+            animationDirection: marqueeDirection === 'right' ? 'reverse' : 'normal'
+          }}
+        >
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex gap-12 font-sans text-sm uppercase tracking-[0.2em] font-semibold px-6">
               {marqueeText.split('•').map((text, idx) => (
