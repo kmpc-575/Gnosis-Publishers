@@ -158,7 +158,7 @@ const Landing: React.FC = () => {
           <div className="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between min-h-[400px] group overflow-hidden relative border border-outline-variant/10">
             <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none flex items-center justify-center p-12">
               <img 
-                className="object-contain w-full h-full grayscale opacity-20" 
+                className="object-contain w-full h-full opacity-20" 
                 src="/GP.ico" 
                 alt="Gnosis Logo Pattern"
                 referrerPolicy="no-referrer"
@@ -248,7 +248,7 @@ const Landing: React.FC = () => {
       <section className="py-32 bg-stone-900 text-stone-100 relative overflow-hidden">
         <div className="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
           <img 
-            className="w-1/2 h-1/2 object-contain grayscale invert opacity-20" 
+            className="w-1/2 h-1/2 object-contain opacity-20" 
             src="/GP.ico" 
             alt="Gnosis Logo Large"
             referrerPolicy="no-referrer"
@@ -273,7 +273,7 @@ const Landing: React.FC = () => {
           </div>
           <div className="w-full md:w-1/3 aspect-[3/4] bg-stone-800 rounded-xl overflow-hidden shadow-2xl relative group flex items-center justify-center p-12">
             <img 
-              className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 grayscale invert opacity-40" 
+              className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 opacity-40" 
               src="/GP.ico" 
               alt="Feature Logo"
               referrerPolicy="no-referrer"
