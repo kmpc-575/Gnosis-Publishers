@@ -6,6 +6,7 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
+import { LOGO_URL } from '../constants';
 
 const Books: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -96,13 +97,14 @@ const Books: React.FC = () => {
               Elevating academic discourse through premium publication pathways—from the acquisition of foundational monographs to the bespoke creation of your intellectual legacy.
             </motion.p>
           </div>
-          <div className="relative h-[500px] rounded-xl overflow-hidden shadow-2xl">
+          <div className="relative h-[500px] rounded-xl overflow-hidden shadow-2xl flex items-center justify-center p-12 bg-emerald-50">
             <img 
               alt="Elegant library" 
-              className="absolute inset-0 w-full h-full object-cover" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOjvZUNKRbGWjXj0Thar8cMrdHvRN3iHyqDdo4kDsaa4Z10Kaa_whYjWeMAHwKrQq_mEGx1ENS-h4jDcDGey80S9RD7qEeOmez9LASr1g97HyB-Y1MivMgf0m4CwEUqoU_S0Ws5_KTtthdK29pPFFWnHveQOHsuKmejxZaTvSNawXioD1udbWAs2DGaq7jQ7CjqExMKHvbf-QsogaOhoZA0MMeDwqtkXNlkiAOQdbwWDTQtFY4ILA0da7vEPaqn_dyqEQwCBD3FLqZ"
+              className="w-full h-full object-contain opacity-30 grayscale" 
+              src={LOGO_URL}
+              referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent"></div>
           </div>
         </div>
       </section>
@@ -196,8 +198,8 @@ const Books: React.FC = () => {
             </div>
             <div className="lg:col-span-7 grid grid-cols-2 gap-4">
               <div className="space-y-4 pt-12">
-                <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high">
-                  <img alt="Writing process" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgByz-dz3G-tpuOfOqqCfXhk-je2B8dqWe-V47wGOeMMhffZYxkVRP3VPGEj7KIWPNFxGU-XSjxRZYNTGWxtMQw0pA5g7PsFVGWnKxQa1R1xB7cz94GqcR-rozJ_qiFIcrwrjbLghIIvGAZ4NH1lAkHkPh_uJuOwS5-65biSavITpGjW04T8rqyZFjuu5QJ2M4XmBnrLVzWc8jpGEm7GG3whmSF6NrA-lTylFLZv2pbUWnXb2j2owl2MSsbptrA3CWkiAR1UEMXXFj" />
+                <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
+                  <img alt="Writing process" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
                 </div>
                 <div className="h-80 rounded-xl overflow-hidden bg-primary shadow-2xl flex flex-col justify-end p-8 text-on-primary">
                   <p className="font-serif italic text-2xl mb-4">"Precision is the soul of scholarship."</p>
@@ -205,11 +207,11 @@ const Books: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="h-80 rounded-xl overflow-hidden bg-surface-container-high">
-                  <img alt="Finished book" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEo75bUkRCx2rs7GCXdq5u8gbz9QFeLl00NIyT5SnW_Cz4sRDk9jG9h4aIFnvmLcq1eEZyl337rPN7Va500lM_6Ldxw47B_7e6ST1u0Y_XO47aNkRL3lnHNxbsvNGFQ3MGtm3LUB-LpcU210qdMs4Cgz1C2NlcCVFrohjTUC-V-WCXvFznPpJN5Bmv7XrE7jHOKs4qaNloGDzVw8Mc5juyrDq0hMNbBjl1iVbTOv2W_vHJ742vhLmb6mMel2HTyBT22o6Tv6kdDBHT" />
+                <div className="h-80 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
+                  <img alt="Finished book" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
                 </div>
-                <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high">
-                  <img alt="Archive" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaT__k3ZqzPpG7mFalpQziHbKEeQKEa1_YRFS4EQlpXlhZyEm2fdokRaMZ2URLA89TRqBc3ZP-5A1b59K0HUdTQxq3P_gLrWVO4FtPryRWwh0amRXtlT6OWUHCt2RYgASjDkBXOxQyJi2t4leicc_tmZtoz0kmXB9fhYfAMo77jOimUJEMaDGzGQ4dtWxELEVfan0jZ2PYOEUquDVmQOdUkHmmWo9ubDENHkYDTDO0qGtBhFtF5nZANg9oqgdsxG9pbvRJreSVwLlH" />
+                <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
+                  <img alt="Archive" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
+import { LOGO_URL } from '../constants';
 
 const Papers: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -203,13 +204,14 @@ const Papers: React.FC = () => {
                 </button>
               </form>
             </div>
-            <div className="relative hidden lg:block overflow-hidden">
+            <div className="relative hidden lg:block overflow-hidden flex items-center justify-center p-12 bg-surface-container-high">
               <img 
-                className="absolute inset-0 w-full h-full object-cover" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjytbcQTD3p0acI1OG293vftQxMiJEcIjKwfHB3vw3r7h0MqpIKyNajxXR5jHnBP_-FFIDBcr3SM7bfxvQFQAZFQR5mCVqEqHCvrXpB-rVaeQxG7M5-gyUaN4VirxxWkQH9jxhiVixRGo3ioRmD5VF9b8jLwlMQcuCLauvm1IUPY2N-5Vpc_yfmkIAhyWTPwDaKRuOMDNScdvjnp77C8CnQUG_rLnuOQGmi4LTCIPGkvaRz9uVIVxexNhXYPnua1bGF1gX4qzk0xdm" 
-                alt="Custom Paper"
+                className="w-full h-full object-contain opacity-20 grayscale" 
+                src={LOGO_URL} 
+                alt="Custom Paper Logo"
+                referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-primary/5 mix-blend-multiply"></div>
             </div>
           </div>
         </section>

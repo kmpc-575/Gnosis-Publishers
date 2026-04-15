@@ -6,6 +6,7 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
+import { LOGO_URL } from '../constants';
 
 const Patents: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -104,12 +105,13 @@ const Patents: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative flex items-center justify-center p-8">
             <div className="absolute inset-0 bg-primary/5 rounded-[4rem] rotate-3 -z-10 translate-x-4"></div>
             <img 
               alt="Patent Hero" 
-              className="w-full h-[500px] object-cover rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHELZ4LM7YH06a_4QoYGjZvZrfCDI039lBWeOM3OHveZ2lTquLQ8W11OGSmi5eEep9DbAkO3w7okZUkadqiQdqDuxJTaIUZ_ArmHeg0J8hmUyc_o7mQjTvdKbSJ3D04LD89v8srWsoq6DFPYNEgZuhadBzR4slRJwMhUUKz9cdfBy9Tv7NT4LJp-ZFEsfEhy53qQIRwG-0VPOriMTFLAdMiuW_cBEqn4BgWXrs9TCQlIzlKtq0Febs0FqSFHGcjbHe8NgUTdd3050x"
+              className="w-full h-auto max-h-[500px] object-contain rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 p-12" 
+              src={LOGO_URL}
+              referrerPolicy="no-referrer"
             />
           </div>
         </div>
