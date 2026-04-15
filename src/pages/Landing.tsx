@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout as LayoutIcon, Library } from 'lucide-react';
-import { motion } from 'motion/react';
+import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout as LayoutIcon, Library, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { supabase } from '../lib/supabase';
-import { LOGO_URL } from '../constants';
+import { Link } from 'react-router-dom';
 
 const Landing: React.FC = () => {
   const [marqueeText, setMarqueeText] = useState('Recent: Deep Learning Paper Published • Blockchain Patent Filed • Quantum Physics Journal Volume 10');
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -71,9 +72,41 @@ const Landing: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="flex justify-center gap-6 pt-4"
           >
-            <button className="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-transform">
-              Explore Archive
-            </button>
+            <div className="relative" onMouseLeave={() => setIsExploreOpen(false)}>
+              <button 
+                onMouseEnter={() => setIsExploreOpen(true)}
+                onClick={() => setIsExploreOpen(!isExploreOpen)}
+                className="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-transform flex items-center gap-2"
+              >
+                Explore Archive <ChevronDown size={20} className={`transition-transform ${isExploreOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {isExploreOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant/20 py-2 min-w-[200px] z-50 flex flex-col overflow-hidden"
+                  >
+                    <Link to="/papers" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
+                      <Library size={18} className="text-primary" /> Papers
+                    </Link>
+                    <Link to="/journals" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
+                      <BookOpen size={18} className="text-primary" /> Journals
+                    </Link>
+                    <Link to="/patents" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
+                      <Gavel size={18} className="text-primary" /> Patents
+                    </Link>
+                    <Link to="/books" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
+                      <Book size={18} className="text-primary" /> Books
+                    </Link>
+                    <Link to="/projects" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
+                      <LayoutIcon size={18} className="text-primary" /> Projects
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -153,7 +186,7 @@ const Landing: React.FC = () => {
             <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none flex items-center justify-center p-12">
               <img 
                 className="object-contain w-full h-full grayscale opacity-20" 
-                src={LOGO_URL} 
+                src="/GP.ico" 
                 alt="Gnosis Logo Pattern"
                 referrerPolicy="no-referrer"
               />
@@ -243,7 +276,7 @@ const Landing: React.FC = () => {
         <div className="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
           <img 
             className="w-1/2 h-1/2 object-contain grayscale invert opacity-20" 
-            src={LOGO_URL} 
+            src="/GP.ico" 
             alt="Gnosis Logo Large"
             referrerPolicy="no-referrer"
           />
@@ -268,7 +301,7 @@ const Landing: React.FC = () => {
           <div className="w-full md:w-1/3 aspect-[3/4] bg-stone-800 rounded-xl overflow-hidden shadow-2xl relative group flex items-center justify-center p-12">
             <img 
               className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 grayscale invert opacity-40" 
-              src={LOGO_URL} 
+              src="/GP.ico" 
               alt="Feature Logo"
               referrerPolicy="no-referrer"
             />

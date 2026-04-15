@@ -6,7 +6,6 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
-import { LOGO_URL } from '../constants';
 
 const Patents: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -110,7 +109,7 @@ const Patents: React.FC = () => {
             <img 
               alt="Patent Hero" 
               className="w-full h-auto max-h-[500px] object-contain rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 p-12" 
-              src={LOGO_URL}
+              src="/GP.ico"
               referrerPolicy="no-referrer"
             />
           </div>

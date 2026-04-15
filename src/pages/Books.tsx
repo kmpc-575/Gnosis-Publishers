@@ -6,7 +6,6 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
-import { LOGO_URL } from '../constants';
 
 const Books: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -101,7 +100,7 @@ const Books: React.FC = () => {
             <img 
               alt="Elegant library" 
               className="w-full h-full object-contain opacity-30 grayscale" 
-              src={LOGO_URL}
+              src="/GP.ico"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent"></div>
@@ -199,7 +198,7 @@ const Books: React.FC = () => {
             <div className="lg:col-span-7 grid grid-cols-2 gap-4">
               <div className="space-y-4 pt-12">
                 <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
-                  <img alt="Writing process" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
+                  <img alt="Writing process" className="w-full h-full object-contain opacity-20 grayscale" src="/GP.ico" referrerPolicy="no-referrer" />
                 </div>
                 <div className="h-80 rounded-xl overflow-hidden bg-primary shadow-2xl flex flex-col justify-end p-8 text-on-primary">
                   <p className="font-serif italic text-2xl mb-4">"Precision is the soul of scholarship."</p>
@@ -208,10 +207,10 @@ const Books: React.FC = () => {
               </div>
               <div className="space-y-4">
                 <div className="h-80 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
-                  <img alt="Finished book" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
+                  <img alt="Finished book" className="w-full h-full object-contain opacity-20 grayscale" src="/GP.ico" referrerPolicy="no-referrer" />
                 </div>
                 <div className="h-64 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center p-8">
-                  <img alt="Archive" className="w-full h-full object-contain opacity-20 grayscale" src={LOGO_URL} referrerPolicy="no-referrer" />
+                  <img alt="Archive" className="w-full h-full object-contain opacity-20 grayscale" src="/GP.ico" referrerPolicy="no-referrer" />
                 </div>
               </div>
             </div>

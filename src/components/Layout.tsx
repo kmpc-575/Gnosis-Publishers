@@ -4,7 +4,6 @@ import { Mail, Share2, LogOut, Settings, UserCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
-import { LOGO_URL } from '../constants';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -38,7 +37,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center gap-12">
             <Link to="/" className="flex items-center gap-3 group">
               <img 
-                src={LOGO_URL} 
+                src="/GP.ico" 
                 alt="Gnosis Logo" 
                 className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
                 referrerPolicy="no-referrer"
@@ -131,7 +130,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4 group">
               <img 
-                src={LOGO_URL} 
+                src="/GP.ico" 
                 alt="Gnosis Logo" 
                 className="h-8 w-auto object-contain"
                 referrerPolicy="no-referrer"

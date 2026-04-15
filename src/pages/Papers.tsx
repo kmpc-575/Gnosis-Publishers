@@ -6,7 +6,6 @@ import { ContentItem } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { PaymentService } from '../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
-import { LOGO_URL } from '../constants';
 
 const Papers: React.FC = () => {
   const { user, userProfile, signInWithGoogle } = useAuth();
@@ -207,7 +206,7 @@ const Papers: React.FC = () => {
             <div className="relative hidden lg:block overflow-hidden flex items-center justify-center p-12 bg-surface-container-high">
               <img 
                 className="w-full h-full object-contain opacity-20 grayscale" 
-                src={LOGO_URL} 
+                src="/GP.ico" 
                 alt="Custom Paper Logo"
                 referrerPolicy="no-referrer"
               />
