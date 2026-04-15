@@ -72,40 +72,13 @@ const Landing: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="flex justify-center gap-6 pt-4"
           >
-            <div className="relative" onMouseLeave={() => setIsExploreOpen(false)}>
+            <div>
               <button 
-                onMouseEnter={() => setIsExploreOpen(true)}
-                onClick={() => setIsExploreOpen(!isExploreOpen)}
+                onClick={() => setIsExploreOpen(true)}
                 className="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-transform flex items-center gap-2"
               >
-                Explore Archive <ChevronDown size={20} className={`transition-transform ${isExploreOpen ? 'rotate-180' : ''}`} />
+                Explore Archive <ArrowRight size={20} />
               </button>
-              <AnimatePresence>
-                {isExploreOpen && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant/20 py-2 min-w-[200px] z-50 flex flex-col overflow-hidden"
-                  >
-                    <Link to="/papers" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
-                      <Library size={18} className="text-primary" /> Papers
-                    </Link>
-                    <Link to="/journals" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
-                      <BookOpen size={18} className="text-primary" /> Journals
-                    </Link>
-                    <Link to="/patents" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
-                      <Gavel size={18} className="text-primary" /> Patents
-                    </Link>
-                    <Link to="/books" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
-                      <Book size={18} className="text-primary" /> Books
-                    </Link>
-                    <Link to="/projects" className="px-6 py-3 hover:bg-surface-container-low text-on-surface font-bold text-left transition-colors flex items-center gap-3">
-                      <LayoutIcon size={18} className="text-primary" /> Projects
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </motion.div>
         </div>
@@ -313,6 +286,50 @@ const Landing: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Explore Archive Modal */}
+      <AnimatePresence>
+        {isExploreOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm"
+            onClick={() => setIsExploreOpen(false)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant/20 p-6 min-w-[320px] flex flex-col gap-2 relative"
+              onClick={e => e.stopPropagation()}
+            >
+              <h3 className="font-serif text-2xl text-primary mb-4 text-center">Explore Archive</h3>
+              <Link to="/papers" className="px-6 py-4 hover:bg-surface-container-low rounded-xl text-on-surface font-bold text-left transition-colors flex items-center gap-4">
+                <Library size={24} className="text-primary" /> Papers
+              </Link>
+              <Link to="/journals" className="px-6 py-4 hover:bg-surface-container-low rounded-xl text-on-surface font-bold text-left transition-colors flex items-center gap-4">
+                <BookOpen size={24} className="text-primary" /> Journals
+              </Link>
+              <Link to="/patents" className="px-6 py-4 hover:bg-surface-container-low rounded-xl text-on-surface font-bold text-left transition-colors flex items-center gap-4">
+                <Gavel size={24} className="text-primary" /> Patents
+              </Link>
+              <Link to="/books" className="px-6 py-4 hover:bg-surface-container-low rounded-xl text-on-surface font-bold text-left transition-colors flex items-center gap-4">
+                <Book size={24} className="text-primary" /> Books
+              </Link>
+              <Link to="/projects" className="px-6 py-4 hover:bg-surface-container-low rounded-xl text-on-surface font-bold text-left transition-colors flex items-center gap-4">
+                <LayoutIcon size={24} className="text-primary" /> Projects
+              </Link>
+              <button 
+                onClick={() => setIsExploreOpen(false)} 
+                className="mt-4 w-full py-3 bg-surface-container-high text-primary rounded-full font-bold hover:bg-primary hover:text-on-primary transition-colors"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
