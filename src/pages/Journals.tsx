@@ -1,12 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { ShoppingCart, Search, CheckSquare, History, Globe, Share2 } from 'lucide-react';
+import { ShoppingCart, Search, CheckSquare, History, Globe, Share2, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { ContentItem } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { PaymentService } from '../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 const Journals: React.FC = () => {
+  const { user, userProfile, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const [journals, setJournals] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleBuy = async (journal: ContentItem) => {
+    if (!user) {
+      if (window.confirm('Please sign in to purchase. Sign in now?')) {
+        signInWithGoogle();
+      }
+      return;
+    }
+
+    if (!userProfile?.mobile) {
+      if (window.confirm('Please complete your profile with a mobile number before purchasing. Go to profile setup?')) {
+        navigate('/profile-setup');
+      }
+      return;
+    }
+
+    try {
+      setProcessingId(journal.id);
+      const amount = PaymentService.parsePrice(journal.price);
+      
+      if (amount <= 0) {
+        alert('Invalid price for this item.');
+        return;
+      }
+
+      await PaymentService.initiatePayment({
+        amount,
+        customerId: user.id,
+        customerEmail: user.email || '',
+        customerPhone: userProfile.mobile,
+        orderNote: `Purchase: ${journal.title}`,
+        orderId: `jour_${journal.id.slice(0, 8)}_${Date.now()}`
+      });
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Payment failed to initiate. Please try again.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchJournals = async () => {
@@ -75,7 +121,16 @@ const Journals: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-2xl font-serif text-primary">{journal.price}</span>
-                    <button className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-primary-container transition-all active:scale-95">Purchase Now</button>
+                    <button 
+                      onClick={() => handleBuy(journal)}
+                      disabled={processingId === journal.id}
+                      className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm hover:bg-primary-container transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50"
+                    >
+                      {processingId === journal.id ? (
+                        <Loader2 className="animate-spin" size={16} />
+                      ) : null}
+                      Purchase Now
+                    </button>
                   </div>
                 </div>
               </motion.div>

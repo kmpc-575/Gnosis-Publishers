@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BadgeCheck, Zap, CreditCard, ArrowRight, BookOpen, Gavel, Book, Layout as LayoutIcon, Library } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
+import { LOGO_URL } from '../constants';
 
 const Landing: React.FC = () => {
   const [marqueeText, setMarqueeText] = useState('Recent: Deep Learning Paper Published • Blockchain Patent Filed • Quantum Physics Journal Volume 10');
@@ -34,6 +35,19 @@ const Landing: React.FC = () => {
           }}
         ></div>
         <div className="max-w-5xl w-full text-center relative z-10 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center mb-4"
+          >
+            <img 
+              src={LOGO_URL} 
+              alt="Gnosis Logo" 
+              className="h-32 md:h-48 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}

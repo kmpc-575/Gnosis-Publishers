@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, Mail, Lock, Chrome } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { LOGO_URL } from '../constants';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -56,6 +57,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <div className="p-8">
+          <div className="flex justify-center mb-6">
+            <img 
+              src={LOGO_URL} 
+              alt="Gnosis Logo" 
+              className="h-16 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </div>
           <h2 className="text-3xl font-serif text-emerald-900 mb-2">
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>

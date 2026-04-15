@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Terminal, Cpu, Microscope, CheckCircle, ArrowRight } from 'lucide-react';
+import { Terminal, Cpu, Microscope, CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { ContentItem } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { PaymentService } from '../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 const Projects: React.FC = () => {
+  const { user, userProfile, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const [projects, setProjects] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -26,6 +32,46 @@ const Projects: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  const handleBuy = async (project: ContentItem) => {
+    if (!user) {
+      if (window.confirm('Please sign in to purchase. Sign in now?')) {
+        signInWithGoogle();
+      }
+      return;
+    }
+
+    if (!userProfile?.mobile) {
+      if (window.confirm('Please complete your profile with a mobile number before purchasing. Go to profile setup?')) {
+        navigate('/profile-setup');
+      }
+      return;
+    }
+
+    try {
+      setProcessingId(project.id);
+      const amount = PaymentService.parsePrice(project.price);
+      
+      if (amount <= 0) {
+        alert('Invalid price for this item.');
+        return;
+      }
+
+      await PaymentService.initiatePayment({
+        amount,
+        customerId: user.id,
+        customerEmail: user.email || '',
+        customerPhone: userProfile.mobile,
+        orderNote: `Purchase: ${project.title}`,
+        orderId: `proj_${project.id.slice(0, 8)}_${Date.now()}`
+      });
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Payment failed to initiate. Please try again.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   const getIcon = (category: string) => {
     const cat = category.toLowerCase();
@@ -87,7 +133,16 @@ const Projects: React.FC = () => {
                   <p className="text-sm text-on-surface-variant mb-6 line-clamp-2">{project.description}</p>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-xl font-serif font-bold text-primary">{project.price}</span>
-                    <button className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm">Buy Project</button>
+                    <button 
+                      onClick={() => handleBuy(project)}
+                      disabled={processingId === project.id}
+                      className="bg-surface-container-highest text-primary font-semibold px-4 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all text-sm flex items-center gap-2 disabled:opacity-50"
+                    >
+                      {processingId === project.id ? (
+                        <Loader2 className="animate-spin" size={16} />
+                      ) : null}
+                      Buy Project
+                    </button>
                   </div>
                 </motion.div>
               ))}

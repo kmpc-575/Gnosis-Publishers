@@ -1,12 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { ShieldCheck, ArrowRight, CheckCircle } from 'lucide-react';
+import { ShieldCheck, ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { ContentItem } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { PaymentService } from '../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 const Patents: React.FC = () => {
+  const { user, userProfile, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const [patents, setPatents] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleBuy = async (patent: ContentItem) => {
+    if (!user) {
+      if (window.confirm('Please sign in to purchase. Sign in now?')) {
+        signInWithGoogle();
+      }
+      return;
+    }
+
+    if (!userProfile?.mobile) {
+      if (window.confirm('Please complete your profile with a mobile number before purchasing. Go to profile setup?')) {
+        navigate('/profile-setup');
+      }
+      return;
+    }
+
+    try {
+      setProcessingId(patent.id);
+      const amount = PaymentService.parsePrice(patent.price);
+      
+      if (amount <= 0) {
+        alert('Invalid price for this item.');
+        return;
+      }
+
+      await PaymentService.initiatePayment({
+        amount,
+        customerId: user.id,
+        customerEmail: user.email || '',
+        customerPhone: userProfile.mobile,
+        orderNote: `Purchase: ${patent.title}`,
+        orderId: `patt_${patent.id.slice(0, 8)}_${Date.now()}`
+      });
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Payment failed to initiate. Please try again.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchPatents = async () => {
@@ -100,9 +146,19 @@ const Patents: React.FC = () => {
                     <div className="flex gap-4 items-center">
                       <div className="text-2xl font-serif text-on-surface">{patent.price}</div>
                     </div>
-                    <button className="bg-primary text-white px-8 py-3 rounded-full flex items-center gap-2 group/btn">
-                      <span className="text-sm font-bold">Buy Patent</span>
-                      <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                    <button 
+                      onClick={() => handleBuy(patent)}
+                      disabled={processingId === patent.id}
+                      className="bg-primary text-white px-8 py-3 rounded-full flex items-center gap-2 group/btn disabled:opacity-50"
+                    >
+                      {processingId === patent.id ? (
+                        <Loader2 className="animate-spin" size={16} />
+                      ) : (
+                        <>
+                          <span className="text-sm font-bold">Buy Patent</span>
+                          <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import { Mail, Share2, LogOut, Settings, UserCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
+import { LOGO_URL } from '../constants';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -35,8 +36,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="bg-emerald-50/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300 border-b border-outline-variant/10">
         <nav className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-12">
-            <Link to="/" className="text-2xl font-serif italic text-emerald-900">
-              Gnosis Publishers
+            <Link to="/" className="flex items-center gap-3 group">
+              <img 
+                src={LOGO_URL} 
+                alt="Gnosis Logo" 
+                className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
+                referrerPolicy="no-referrer"
+              />
+              <span className="text-2xl font-serif italic text-emerald-900 hidden sm:block">
+                Gnosis Publishers
+              </span>
             </Link>
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
@@ -120,9 +129,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <footer className="bg-stone-100 border-t border-outline-variant/10 mt-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
           <div className="md:col-span-1">
-            <span className="text-xl font-serif text-emerald-900 mb-4 block">
-              Gnosis Publishers
-            </span>
+            <Link to="/" className="flex items-center gap-2 mb-4 group">
+              <img 
+                src={LOGO_URL} 
+                alt="Gnosis Logo" 
+                className="h-8 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
+              <span className="text-xl font-serif text-emerald-900 block">
+                Gnosis Publishers
+              </span>
+            </Link>
             <p className="text-xs text-stone-500 leading-relaxed mb-6">
               © 2024 Gnosis Publishers. Precision in Scholarly Excellence.
             </p>

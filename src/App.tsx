@@ -15,6 +15,7 @@ import Projects from './pages/Projects';
 import Admin from './pages/Admin';
 import ProfileSetup from './pages/ProfileSetup';
 import AuthCallback from './pages/AuthCallback';
+import PaymentStatus from './pages/PaymentStatus';
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/payment-status" element={<PaymentStatus />} />
         </Routes>
       </Layout>
     </Router>

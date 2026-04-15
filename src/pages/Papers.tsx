@@ -1,12 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { ShoppingCart, Edit3, BookOpen } from 'lucide-react';
+import { ShoppingCart, Edit3, BookOpen, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { ContentItem } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { PaymentService } from '../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 const Papers: React.FC = () => {
+  const { user, userProfile, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const [papers, setPapers] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleBuy = async (paper: ContentItem) => {
+    if (!user) {
+      if (window.confirm('Please sign in to purchase. Sign in now?')) {
+        signInWithGoogle();
+      }
+      return;
+    }
+
+    if (!userProfile?.mobile) {
+      if (window.confirm('Please complete your profile with a mobile number before purchasing. Go to profile setup?')) {
+        navigate('/profile-setup');
+      }
+      return;
+    }
+
+    try {
+      setProcessingId(paper.id);
+      const amount = PaymentService.parsePrice(paper.price);
+      
+      if (amount <= 0) {
+        alert('Invalid price for this item.');
+        return;
+      }
+
+      await PaymentService.initiatePayment({
+        amount,
+        customerId: user.id,
+        customerEmail: user.email || '',
+        customerPhone: userProfile.mobile,
+        orderNote: `Purchase: ${paper.title}`,
+        orderId: `papr_${paper.id.slice(0, 8)}_${Date.now()}`
+      });
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Payment failed to initiate. Please try again.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -78,8 +124,16 @@ const Papers: React.FC = () => {
                   </div>
                   <h3 className="font-serif text-xl mb-4 text-on-surface">{paper.title}</h3>
                   <p className="text-on-surface-variant text-sm mb-8 leading-relaxed">{paper.description}</p>
-                  <button className="w-full bg-surface-container-highest text-primary font-bold py-3 rounded-full hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2">
-                    Buy Now <ShoppingCart size={16} />
+                  <button 
+                    onClick={() => handleBuy(paper)}
+                    disabled={processingId === paper.id}
+                    className="w-full bg-surface-container-highest text-primary font-bold py-3 rounded-full hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {processingId === paper.id ? (
+                      <Loader2 className="animate-spin" size={16} />
+                    ) : (
+                      <>Buy Now <ShoppingCart size={16} /></>
+                    )}
                   </button>
                 </motion.div>
               ))}

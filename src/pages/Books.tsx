@@ -1,12 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { Edit3, BookOpen, Globe, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Edit3, BookOpen, Globe, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { ContentItem } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { PaymentService } from '../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 const Books: React.FC = () => {
+  const { user, userProfile, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const [books, setBooks] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleBuy = async (book: ContentItem) => {
+    if (!user) {
+      if (window.confirm('Please sign in to purchase. Sign in now?')) {
+        signInWithGoogle();
+      }
+      return;
+    }
+
+    if (!userProfile?.mobile) {
+      if (window.confirm('Please complete your profile with a mobile number before purchasing. Go to profile setup?')) {
+        navigate('/profile-setup');
+      }
+      return;
+    }
+
+    try {
+      setProcessingId(book.id);
+      const amount = PaymentService.parsePrice(book.price);
+      
+      if (amount <= 0) {
+        alert('Invalid price for this item.');
+        return;
+      }
+
+      await PaymentService.initiatePayment({
+        amount,
+        customerId: user.id,
+        customerEmail: user.email || '',
+        customerPhone: userProfile.mobile,
+        orderNote: `Purchase: ${book.title}`,
+        orderId: `book_${book.id.slice(0, 8)}_${Date.now()}`
+      });
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Payment failed to initiate. Please try again.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -92,7 +138,16 @@ const Books: React.FC = () => {
                   <p className="text-sm text-on-surface-variant mb-6 flex-grow leading-relaxed">{book.description}</p>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-xl font-bold text-primary">{book.price}</span>
-                    <button className="bg-surface-container-highest text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95">Buy Now</button>
+                    <button 
+                      onClick={() => handleBuy(book)}
+                      disabled={processingId === book.id}
+                      className="bg-surface-container-highest text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50"
+                    >
+                      {processingId === book.id ? (
+                        <Loader2 className="animate-spin" size={16} />
+                      ) : null}
+                      Buy Now
+                    </button>
                   </div>
                 </motion.div>
               ))}
