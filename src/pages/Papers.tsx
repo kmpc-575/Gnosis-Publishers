@@ -205,7 +205,7 @@ const Papers: React.FC = () => {
             </div>
             <div className="relative hidden lg:block overflow-hidden flex items-center justify-center p-12 bg-surface-container-high">
               <img 
-                className="w-full h-full object-contain opacity-20 grayscale" 
+                className="w-full h-full object-contain" 
                 src="/GP.ico" 
                 alt="Custom Paper Logo"
                 referrerPolicy="no-referrer"
