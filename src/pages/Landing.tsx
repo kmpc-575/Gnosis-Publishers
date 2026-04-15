@@ -26,14 +26,7 @@ const Landing: React.FC = () => {
     <div className="bg-surface">
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex flex-col justify-center items-center px-6 overflow-hidden">
-        <div 
-          className="absolute inset-0 opacity-10 pointer-events-none" 
-          style={{ 
-            backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKjDgeB25MrNrSEw8IytmaLNNmgf7z2JKx7kOoLV248oRY3Doo2WDM3EOlXeqoBhCV5cE5ENcDHMAgpPOzeFC6QkTPC9uJRhllMRI0YX8_V_oEGCRGIhVQ3T_JtRJoEhcka8g1_HOdUUIfVVDj5_bBPvzLctW1sj9pCiCpfbdo5ptIj71KtKLNiBP7-fL5TvnWsY449TUkErS38rIzfZ86GMoLNUgPRyRO6BaBCDD9ddl-tHTEyj6JuVrWY66CWR3RnFZXTF4xaNMc')", 
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center' 
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/50 to-surface pointer-events-none"></div>
         <div className="max-w-5xl w-full text-center relative z-10 space-y-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -42,7 +35,7 @@ const Landing: React.FC = () => {
             className="flex justify-center mb-4"
           >
             <img 
-              src="/GP.ico" 
+              src={LOGO_URL} 
               alt="Gnosis Logo" 
               className="h-32 md:h-48 w-auto object-contain"
               referrerPolicy="no-referrer"
@@ -157,11 +150,12 @@ const Landing: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Large Feature Card */}
           <div className="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between min-h-[400px] group overflow-hidden relative border border-outline-variant/10">
-            <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
+            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none flex items-center justify-center p-12">
               <img 
-                className="object-cover w-full h-full grayscale" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCui1kVYq_oycz61lDVS9F-s2Ra7Tn-YDr7Vxy-nTDnRDAfH233rJHn17nPfi4O6lzsbHdqSIl_ru-Fb6bvIPBA6_YzQN-UkWBl6lFKZM6yFudLwFbHjUXE_NEYIyjBwxVU52ch9gBD5TVNCfMTzEGyYJfwVuyT_QyYB9vgjharrXr03s0VYSoXf7vo2-QcQCxt9Zdkoqpb1Vk01nwpDwHEDT9Q46pATLUocoF7nhMUZDGMkQ-OTxDd4QhkJm24Kczh34iqOEY6B4BJ" 
-                alt="Paper Publication"
+                className="object-contain w-full h-full grayscale opacity-20" 
+                src={LOGO_URL} 
+                alt="Gnosis Logo Pattern"
+                referrerPolicy="no-referrer"
               />
             </div>
             <div className="relative z-10">
@@ -246,11 +240,12 @@ const Landing: React.FC = () => {
 
       {/* Promotional/Editorial Section */}
       <section className="py-32 bg-stone-900 text-stone-100 relative overflow-hidden">
-        <div className="absolute left-0 top-0 w-full h-full opacity-20 pointer-events-none">
+        <div className="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
           <img 
-            className="w-full h-full object-cover" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuY09jrHYs95AjXfA4cNBgcR-PlH2M2APXCuuiQERIG-V-vW2lVSS7ZXNhfw3zLJyac62YIi9DeK370uVNa3PGmiwNnskl-qaeXsqsP96Ay77SApnDB_k7XZqdB_sjuo3CLNwrWd7yldtUo0aR_d3G3z0aADf3YLOVOizlmAUo87uqakVCbkNJH1eDhhIgjejf-VePZFJwjEdsfApiHj7OCsV4dJvrwSov7aTQyFmUcU7UDLNoOD6xmyNI9U1DZZA4d9KIYELZQR6u" 
-            alt="Editorial"
+            className="w-1/2 h-1/2 object-contain grayscale invert opacity-20" 
+            src={LOGO_URL} 
+            alt="Gnosis Logo Large"
+            referrerPolicy="no-referrer"
           />
         </div>
         <div className="max-w-7xl mx-auto px-8 relative z-10 flex flex-col md:flex-row items-center gap-20">
@@ -270,11 +265,12 @@ const Landing: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/3 aspect-[3/4] bg-stone-800 rounded-xl overflow-hidden shadow-2xl relative group">
+          <div className="w-full md:w-1/3 aspect-[3/4] bg-stone-800 rounded-xl overflow-hidden shadow-2xl relative group flex items-center justify-center p-12">
             <img 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBmFu1TT5ldgSXqRTUy3C-hns4F2nI8zF1NEu9nSS9U53yZpwQs24rfunZLHy6wUxV5arcmPe15w5JRe6w-RK1DA0uGKGjeA-2LBgYj7ELJrHPB_m3cDrUlr3W33wzJTXO0JGERo05_oH0GuOxz8xGQxGwXwbHWEvagqilt3PwAqxWIcz8J_UzncHsX-IlTlr6WRwwYW58ARVu-utEeYrsRklRD0-KuxYrkq51PfqozoD6DcVywViBxTa3Pr7pmYOLr9ayodUUro-E" 
-              alt="Feature"
+              className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 grayscale invert opacity-40" 
+              src={LOGO_URL} 
+              alt="Feature Logo"
+              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent"></div>
             <div className="absolute bottom-8 left-8">
